@@ -1,0 +1,98 @@
+html, body {
+  text-align: center;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none;   /* Chrome/Safari/Opera */
+  -khtml-user-select: none;    /* Konqueror */
+  -moz-user-select: none;      /* Firefox */
+  -ms-user-select: none;       /* Internet Explorer/Edge */
+  user-select: none;           /* Non-prefixed version, currently
+                                  not supported by any browser */
+}
+
+body{
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+
+#black{
+  display: none;
+}
+
+#white{
+  display: none;
+}
+
+#grey{
+  display: none;
+}
+
+#default{
+  visibility: hidden;
+}
+
+#smile{
+  float:left;
+}
+
+#burglar{
+  float:left;
+}
+
+.msg{
+  margin-top: 3%;
+  font-size: 1.3em;
+  padding-bottom: 3%;
+  text-align: center;
+}
+
+#url{
+  color:#0A0A0A;
+	text-decoration: underline;
+  text-align: center;
+}
+
+.report{
+  font-size: 1.7em;
+  cursor: pointer;
+  border-style: solid;
+  border-color:#060606;
+  margin-bottom: 2%;
+  height: 100%;
+}
+
+.smallButton{
+  font-size: 1.2em;
+  cursor: pointer;
+  border-style: solid;
+  border-color:#060606;
+  margin-top: 3%;
+}
+
+.ignore{
+  font-size: 1.5em;
+  cursor: pointer;
+  border-style: solid;
+  border-color:#060606;
+  margin-bottom: 1%;
+  height: 100%;
+}
+
+#report:hover {
+  background-color: #F2F2F2;
+}
+
+#thanks{
+  display: none;
+  padding-top: 5%;
+  text-align: center;
+  font-size: 1.7em;
+}
+
+#already{
+  display: none;
+  text-align: center;
+  font-size: 1.1em;
+}
+

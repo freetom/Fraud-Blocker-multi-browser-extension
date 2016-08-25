@@ -1,0 +1,58 @@
+{
+
+  "manifest_version": 2,
+  "name": "Fraud Blocker",
+  "version": "0.1",
+
+  "description": "Protects you from fraudlent sites and Warn you when accessing sites reported as fraudlents from other users. Also allow you to give fraud-feedback on the visited sites through the button on the toolbar.",
+
+  "icons": {
+    "48": "icons/icon-48.png"
+  },
+  
+  "applications": {
+    "gecko": {
+      "id": "fraudblocker@mozilla.org",
+      "strict_min_version": "45.0"
+    }
+  },
+
+  "permissions": [
+    "activeTab",
+    "tabs",
+    "webRequest",
+    "webNavigation",
+    "storage",
+    "http://*/*", 
+    "https://*/*"
+  ],  
+
+  "background": {
+    "page": "background-page.html"
+  },
+
+  "browser_action": {
+    "default_icon": {
+      "32": "icons/fraud-32.png",
+      "64": "icons/fraud-64.png"
+      },
+    "default_title": "Fraud Blocker",
+    "default_popup": "popup/popup.html",
+    "browser_style": true
+  },
+
+  "content_scripts": [
+    {
+      "js": ["content_script.js"],
+      "matches": ["<all_urls>"]
+    }
+  ],
+
+  "web_accessible_resources": [
+    "web/black.html",
+    "web/grey.html",
+    "icons/fraud-200.png"
+  ]
+
+}
+
