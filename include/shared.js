@@ -1,4 +1,4 @@
-const backendName='https://fraudblocker.publicvm.com/';
+const backendName='https://fraudblocker.publicvm.com/api/';
 const timeZero='1970-01-01 00:00:00';
 
 var reportUrl=backendName+'report.php';

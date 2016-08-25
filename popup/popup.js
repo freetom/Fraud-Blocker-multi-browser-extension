@@ -3,7 +3,7 @@ var currentNS='';
 var localList=null;
 var localConList=null;
 
-storage.clear();
+//storage.clear();
 document.addEventListener("DOMContentLoaded",mapEvents);
 
 storage.get(null,init);
