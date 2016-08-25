@@ -1,7 +1,10 @@
-var blackListURL= backendName+'blackList.php';
-var greyListURL = backendName+'greyList.php';
-var whiteListURL = backendName+'whiteList.php';
-var revokedURL =  backendName+'revoked.php';
+var api='api/';
+var blackListURL= backendName+api+'blackList.php';
+var greyListURL = backendName+api+'greyList.php';
+var whiteListURL = backendName+api+'whiteList.php';
+var revokedURL =  backendName+api+'revoked.php';
+
+var quickstartURL = backendName+'quickstart.html';
 
 var localList=null;
 var localConList=null;
@@ -18,7 +21,13 @@ var lastSyncTimestamp=null;
 var synchronizing=false;
 
 function init(res){
-	
+
+	//if first boot, show quickstart page
+    if(res.quickstart==null){
+        storage.set({quickstart: '1'});
+        chrome.tabs.create({ url:quickstartURL })
+    }
+
     if(res.local==null){
         localList={};
         storage.set({local: localList});

@@ -176,4 +176,5 @@ function mapEvents(){
   document.getElementById("avoidReport").addEventListener("click",avoidReport);
   document.getElementById("fraudlent").addEventListener("click",reportFraud);
   document.getElementById("non-fraudlent").addEventListener("click",conReport);
+  document.getElementById("ignore").addEventListener("click",ignore);
 }
