@@ -3,7 +3,9 @@ var currentNS='';
 var localList=null;
 var localConList=null;
 
-//storage.clear();
+storage.clear();
+document.addEventListener("DOMContentLoaded",mapEvents);
+
 storage.get(null,init);
 
 function ignore(){
@@ -169,3 +171,9 @@ function avoidConReport(){
   );
 }
 
+function mapEvents(){
+  document.getElementById("report").addEventListener("click",reportFraud);
+  document.getElementById("avoidReport").addEventListener("click",avoidReport);
+  document.getElementById("fraudlent").addEventListener("click",reportFraud);
+  document.getElementById("non-fraudlent").addEventListener("click",conReport);
+}

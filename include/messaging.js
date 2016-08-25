@@ -93,7 +93,7 @@ function messageHandler( msg, sender, sendResponse ){
 		}
 		else{
 		    var response = sendGET(URL,msg.ns);
-			if(response.contains('ok')){
+			if(response.indexOf('ok') != -1){
 				if(con){
 					updateLocalConList(msg.ns,add);
 					if(localList[msg.ns]!=null){

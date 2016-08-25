@@ -13,13 +13,13 @@
   <div id="black">
     <img src="/icons/fraud-200.png" style="float:left" width="100px" height="100px"/>
     <div class="msg">Click the button to ignore the warning and proceed to the site</div><br />
-    <div style="text-align:center;"><button class="ignore" onclick="ignore()">ignore for this session</button></div>
+    <div style="text-align:center;"><button class="ignore" id="ignore">ignore for this session</button></div>
   </div>
   <div id="grey">
     <div class="msg" style="font-size:1.0em;padding-left:10%;padding-right:10%;">
       Site reported as fraudlent by <b><span id="nReports"></span></b> people<br/> <b><span id="nControReports"></span></b> people think it is non-fraudlent<br/><br/><i>Want to report too?</i><br />
-      <button class="smallButton" id="fraudlent" onclick="reportFraud()">Fraudlent</button>
-      <button class="smallButton" id="non-fraudlent" onclick="conReport()">Non-Fraudlent</button>
+      <button class="smallButton" id="fraudlent">Fraudlent</button>
+      <button class="smallButton" id="non-fraudlent">Non-Fraudlent</button>
     </div>
   </div>
   <div id="white" style="padding-left:10%;padding-right:10%;">
@@ -31,7 +31,7 @@
 	  <div class="msg">Do you really want to report for fraud? </div>
 	  
 	  <div id="url"> empty</div><br />
-	  <div style="text-align:center;"><button class="report" onclick="reportFraud()">REPORT</button></div>
+	  <div style="text-align:center;"><button class="report" id="report">REPORT</button></div>
   </div>
   <div id="thanks">
   	<img src="/icons/fraud-200.png" style="float:left" width="100px" height="100px"/>
@@ -39,7 +39,7 @@
   </div>
   <div id="already">
     <div class="msg">You already reported this site. Want to avoid your report?</div>
-    <button class="report" style="margin-top:5%; visible:false;" onclick="avoidReport()">AVOID REPORT</button>
+    <button style="margin-bottom:5%; visible:false;" id="avoidReport">AVOID REPORT</button>
   </div>
 </body>
 
