@@ -1,12 +1,10 @@
 
 var currentNS='';
-var localList=null;
-var localConList=null;
 
 //storage.clear();
 document.addEventListener("DOMContentLoaded",mapEvents);
 
-storage.get(null,init);
+init();
 
 function ignore(){
   chrome.runtime.sendMessage(
@@ -21,40 +19,12 @@ function pageCheck(){
   chrome.runtime.sendMessage({msg:'check'},checkURL); 
 }
 
-function init(result){
-  if (chrome.runtime.lastError) {
-    console.log(chrome.runtime.lastError);
-  } else {
-    if(result.local==null){
-      localList={};
-      storage.set({local: localList});
-    }
-    else{
-      localList=parseObj(result.local);
-    }
-
-    if(result.localCon==null){
-      localConList={};
-      storage.set({localCon: localConList});
-    }
-    else{
-      localConList=parseObj(result.localCon);
-    }
-  }
+function init(){
   chrome.tabs.onActivated.addListener(updateTab);
   updateTab();
 
 }
 
-
-function setView(default_, thanks, already){  
-  if(document.getElementById('default').style.display!=default_)
-    document.getElementById('default').style.display=default_;
-  if(document.getElementById('thanks').style.display!=thanks)
-    document.getElementById('thanks').style.display=thanks;
-  if(document.getElementById('already').style.display!=already)
-    document.getElementById('already').style.display=already;
-}
 
 /*  Get the url of the current active tab and update the popup with the new url 
 */
@@ -64,13 +34,8 @@ function updateTab() {
       currentTab = tabs[0];
       currentNS=extractNS(currentTab.url);
       
-      if(pageCheck())
-        setView('none','none','none');
-      else if(localList[currentNS]!=null)
-        setView('none','none','block');
-      else
-        setView('block','none','none');
-      
+      pageCheck();
+
       updateDiv('url',currentNS);
       if(document.getElementById('default').style.visibility!='visible')
         document.getElementById('default').style.visibility='visible';
@@ -93,18 +58,14 @@ function reportFraud(){
     {type: 'report', ns: currentNS},
     function(msg){
       if(msg.result=='ok'){
-        localList[msg.ns]=1;
         if(document.getElementById('grey').style.display=='none')
           setView('none','block','none');
         else{
-          if(document.getElementById('non-fraudlent').style.borderColor=='red'){
-            document.getElementById('non-fraudlent').style.borderColor='#060606';
-            delete localConList[msg.ns];
-          }
+          document.getElementById('fraudlent').style.borderColor='red';
+          document.getElementById('non-fraudlent').style.borderColor='#060606';
+          document.getElementById('dontknow').style.borderColor='#060606';
           updateTab();
         }
-        
-        
       }
       reporting=false;
     }
@@ -121,7 +82,6 @@ function avoidReport(){
     function(msg){
       if(msg.result=='ok'){
         setView('block','none','none');
-        delete localList[msg.ns];
       }
       reporting=false;
     }
@@ -142,11 +102,9 @@ function conReport(){
     {type: 'conReport', ns: currentNS},
     function(msg){
       if(msg.result=='ok'){
-        localConList[msg.ns]=1;
-        if(document.getElementById('fraudlent').style.borderColor=='red'){
-          document.getElementById('fraudlent').style.borderColor='#060606';
-          delete localList[msg.ns];
-        }
+        document.getElementById('fraudlent').style.borderColor='#060606';
+        document.getElementById('non-fraudlent').style.borderColor='red';
+        document.getElementById('dontknow').style.borderColor='#060606';
         updateTab();
       }
       reporting=false;
@@ -162,8 +120,29 @@ function avoidConReport(){
   chrome.runtime.sendMessage(
     {type: 'avoidConReport', ns: currentNS},
     function(msg){
+      updateTab();
+      reporting=false;
+    }
+  );
+}
+
+function avoidAny(){
+  if(document.getElementById('grey').style.display!='none' &&
+    document.getElementById('dontknow').style.borderColor=='red')
+    return;
+
+  if(reporting)
+    return;
+  reporting=true;
+
+  chrome.runtime.sendMessage(
+    {type: 'avoidAny', ns: currentNS},
+    function(msg){
       if(msg.result=='ok'){
-        delete localConList[msg.ns];
+        document.getElementById('fraudlent').style.borderColor='#060606';
+        document.getElementById('non-fraudlent').style.borderColor='#060606';
+        document.getElementById('dontknow').style.borderColor='red';
+
         updateTab();
       }
       reporting=false;
@@ -176,5 +155,6 @@ function mapEvents(){
   document.getElementById("avoidReport").addEventListener("click",avoidReport);
   document.getElementById("fraudlent").addEventListener("click",reportFraud);
   document.getElementById("non-fraudlent").addEventListener("click",conReport);
+  document.getElementById("dontknow").addEventListener("click",avoidAny);
   document.getElementById("ignore").addEventListener("click",ignore);
 }

@@ -1,11 +1,12 @@
 const backendName='https://fraudblocker.publicvm.com/';
 const timeZero='1970-01-01 00:00:00';
+var api='api/';
 
-var reportUrl=backendName+'report.php';
-var avoidReportUrl=backendName+'avoidReport.php';
+var reportUrl=backendName+api+'report.php';
+var avoidReportUrl=backendName+api+'avoidReport.php';
 
-var conReportUrl=backendName+'conReport.php';
-var avoidConReportUrl=backendName+'avoidConReport.php';
+var conReportUrl=backendName+api+'conReport.php';
+var avoidConReportUrl=backendName+api+'avoidConReport.php';
 
 var storage=chrome.storage.local;
 
@@ -28,6 +29,27 @@ function extractNS(url){
     return url.substring(j);
   else
     return url.substring(j,i);
+}
+
+/*  Given a url return the name server till the SLD (second level domain)
+ *  example: abc.tomas.com  ->  tomas.com
+ *  exmaple: https://abc.tomas.com/asd  ->  tomas.com
+*/
+function extractSubNS(ns,level){
+  var i=ns.length;
+  level--;
+  while(i>0){
+    if(ns[i]=='.'){
+      if(level==0){
+        i++;
+        break;
+      }
+      else
+        level--;
+    }
+    i--;
+  }
+  return ns.substring(i);
 }
 
 /* Return time in Europe/Rome Timezone in format yyyy-mm-dd hh:mm:ss

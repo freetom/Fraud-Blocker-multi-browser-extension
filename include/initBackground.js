@@ -1,4 +1,4 @@
-var api='api/';
+
 var blackListURL= backendName+api+'blackList.php';
 var greyListURL = backendName+api+'greyList.php';
 var whiteListURL = backendName+api+'whiteList.php';
