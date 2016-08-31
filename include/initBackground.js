@@ -102,11 +102,11 @@ function init(res){
     fetchRevoked();
     syncLists();
 
-    setInterval(fetchBL,30000);
-    setInterval(fetchWL,30000);
-    setInterval(fetchGL,30000);
-    setInterval(fetchRevoked,30000);
+    setInterval(fetchBL, 600000); //10 min
+    setInterval(fetchWL,1200000); //20 min
+    setInterval(fetchGL, 300000); //5 min
+    setInterval(fetchRevoked,1800000);   //30 min
     
-    setInterval(syncLists,60000);
+    setInterval(syncLists,   3600000);  //60 min
 }
 

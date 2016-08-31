@@ -3,6 +3,9 @@ Fraud Blocker it's an add-on that **Protects** users from accessing fraudlent si
 
 It's real-time. Users are synchronized with the server on a delay of few minutes. If you report a site as fraudlent, all the other users will see the Warning toolbar in a matter of minutes if they visit the reported site.
 
+You can Download if from [Add-ons for Firefox](https://addons.mozilla.org/en-US/firefox/addon/fraud-blocker/)
+For the moment it's only available for Firefox.
+
 
 ##Internals
 Internally the system works in this way: 
