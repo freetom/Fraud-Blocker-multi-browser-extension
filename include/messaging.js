@@ -98,7 +98,7 @@ function messageHandler( msg, sender, sendResponse ){
 
 		var URL=null;
 		var add=null;	//true when adding to tables, false when removing (avoiding reports)
-		var con=false;	//true when reporting site as non-fraudlent
+		var con=false;	//true when reporting site as non-fraudulent
 		var request = new XMLHttpRequest();
 	  if(msg.type=='report'){
 			URL=reportUrl;

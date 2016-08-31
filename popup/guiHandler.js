@@ -38,18 +38,18 @@ function checkURL(msg){
     document.getElementById("nReports").innerHTML=msg.nFraud;
     document.getElementById("nControReports").innerHTML=msg.nGood;
     if(msg.local!=null){
-      document.getElementById("fraudlent").style.borderColor='red';
-      document.getElementById("non-fraudlent").style.borderColor='#060606';
+      document.getElementById("fraudulent").style.borderColor='red';
+      document.getElementById("non-fraudulent").style.borderColor='#060606';
       document.getElementById("dontknow").style.borderColor='#060606';
     }
     else if(msg.conLocal!=null){
-      document.getElementById("fraudlent").style.borderColor='#0606060';
-      document.getElementById("non-fraudlent").style.borderColor='red';
+      document.getElementById("fraudulent").style.borderColor='#0606060';
+      document.getElementById("non-fraudulent").style.borderColor='red';
       document.getElementById("dontknow").style.borderColor='#060606';
     }
     else{
-      document.getElementById("fraudlent").style.borderColor='#060606';
-      document.getElementById("non-fraudlent").style.borderColor='#060606';
+      document.getElementById("fraudulent").style.borderColor='#060606';
+      document.getElementById("non-fraudulent").style.borderColor='#060606';
       document.getElementById("dontknow").style.borderColor='red';
     }
     if(document.getElementById('grey').style.display!='block')

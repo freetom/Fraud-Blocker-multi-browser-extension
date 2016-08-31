@@ -47,7 +47,7 @@ var reporting=false;
 function reportFraud(){
   //already selected?
   if(document.getElementById('grey').style.display!='none' &&
-    document.getElementById('fraudlent').style.borderColor=='red')
+    document.getElementById('fraudulent').style.borderColor=='red')
     return;
 
   if(reporting)
@@ -61,8 +61,8 @@ function reportFraud(){
         if(document.getElementById('grey').style.display=='none')
           setView('none','block','none');
         else{
-          document.getElementById('fraudlent').style.borderColor='red';
-          document.getElementById('non-fraudlent').style.borderColor='#060606';
+          document.getElementById('fraudulent').style.borderColor='red';
+          document.getElementById('non-fraudulent').style.borderColor='#060606';
           document.getElementById('dontknow').style.borderColor='#060606';
           updateTab();
         }
@@ -91,7 +91,7 @@ function avoidReport(){
 function conReport(){
   //already reported?
   if(document.getElementById('grey').style.display!='none' &&
-    document.getElementById('non-fraudlent').style.borderColor=='red')
+    document.getElementById('non-fraudulent').style.borderColor=='red')
     return;
 
   if(reporting)
@@ -102,8 +102,8 @@ function conReport(){
     {type: 'conReport', ns: currentNS},
     function(msg){
       if(msg.result=='ok'){
-        document.getElementById('fraudlent').style.borderColor='#060606';
-        document.getElementById('non-fraudlent').style.borderColor='red';
+        document.getElementById('fraudulent').style.borderColor='#060606';
+        document.getElementById('non-fraudulent').style.borderColor='red';
         document.getElementById('dontknow').style.borderColor='#060606';
         updateTab();
       }
@@ -139,8 +139,8 @@ function avoidAny(){
     {type: 'avoidAny', ns: currentNS},
     function(msg){
       if(msg.result=='ok'){
-        document.getElementById('fraudlent').style.borderColor='#060606';
-        document.getElementById('non-fraudlent').style.borderColor='#060606';
+        document.getElementById('fraudulent').style.borderColor='#060606';
+        document.getElementById('non-fraudulent').style.borderColor='#060606';
         document.getElementById('dontknow').style.borderColor='red';
 
         updateTab();
@@ -153,8 +153,8 @@ function avoidAny(){
 function mapEvents(){
   document.getElementById("report").addEventListener("click",reportFraud);
   document.getElementById("avoidReport").addEventListener("click",avoidReport);
-  document.getElementById("fraudlent").addEventListener("click",reportFraud);
-  document.getElementById("non-fraudlent").addEventListener("click",conReport);
+  document.getElementById("fraudulent").addEventListener("click",reportFraud);
+  document.getElementById("non-fraudulent").addEventListener("click",conReport);
   document.getElementById("dontknow").addEventListener("click",avoidAny);
   document.getElementById("ignore").addEventListener("click",ignore);
 }
