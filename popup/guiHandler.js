@@ -34,9 +34,17 @@ function checkURL(msg){
     done = true;
   }
   else if(msg.msg=='grey'){
+    //sanitize input
+    nFraud=msg.nFraud;
+    if(isNaN(nFraud))
+      nFraud='error';
+    nGood=msg.nGood;
+    if(isNaN(nGood))
+      nGood='error';
+
     setView('none','none','none');
-    document.getElementById("nReports").innerHTML=msg.nFraud;
-    document.getElementById("nControReports").innerHTML=msg.nGood;
+    document.getElementById("nReports").innerHTML=nFraud;
+    document.getElementById("nControReports").innerHTML=nGood;
     if(msg.local!=null){
       document.getElementById("fraudulent").style.borderColor='red';
       document.getElementById("non-fraudulent").style.borderColor='#060606';
