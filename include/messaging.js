@@ -17,6 +17,14 @@ function updateLocalConList(ns,add){
 	storage.set({localCon: JSON.stringify(localConList)});
 }
 
+/*
+ *  Given a url return the status of the page in the database.
+ *  It checks from the SLD to the last domain
+ *  The nameserver that match is returned as result.
+ *  (This preserves the Hierarchic structure of DNS names)
+ *  In other words, if a nameserver is bad, all his derivates 
+ *  are bad too.
+*/
 function getStatus(url){
   var ret={}, prec=null, current='', level=2, ns=extractNS(url);
   while(prec!=current){
@@ -52,6 +60,7 @@ function getStatus(url){
   }
   return ret;
 }
+
 /*
  *  Identify how the site on the current tab is recognized by the local database.
  *  The procedure is the following:
@@ -68,6 +77,9 @@ function notify(sendResponse){
     });
 }
 
+/*
+ *  Send a GET request synchronously and return the responseText
+*/
 function sendGET(url, ns){
 	try{
 		var request = new XMLHttpRequest();
@@ -78,6 +90,14 @@ function sendGET(url, ns){
 	catch(ex){	return "fail";	}
 }
 
+/*
+ *  Function that runs on the background context and execute functions for content_script.js and
+ *  for popup.js.
+ *  Function performed are:
+ *    +check a nameserver 
+ *    +ignore black site for this session
+ *    +report,avoidReport,controReport,avoidControReport
+*/
 var blackListIgnore={};
 var performing=false;
 function messageHandler( msg, sender, sendResponse ){

@@ -31,9 +31,9 @@ function extractNS(url){
     return url.substring(j,i);
 }
 
-/*  Given a url return the name server till the SLD (second level domain)
- *  example: abc.tomas.com  ->  tomas.com
- *  exmaple: https://abc.tomas.com/asd  ->  tomas.com
+/*  Given a url return nameserver at a certain deepness
+ *  example: abc.tomas.com,2  ->  tomas.com
+ *  exmaple: https://abc.tomas.com/asd,2  ->  tomas.com
 */
 function extractSubNS(ns,level){
   var i=ns.length;

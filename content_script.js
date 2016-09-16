@@ -3,6 +3,7 @@ if(document.title!=blockedTitle && document.getElementById("greyPageToolbar")==n
   chrome.runtime.sendMessage(
     { msg:'check' },
     function(msg){
+      if(msg==null) return;
       if(msg.msg=='black'){
         initBlack(msg.ns);
       }
