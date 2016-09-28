@@ -3,6 +3,12 @@ function updateDiv(div, content){
   div.innerHTML=content;
 }
 
+function showOffline(){
+  setView('none','none','none');
+  if(document.getElementById('offline').style.display!='block')
+    document.getElementById('offline').style.display='block';
+}
+
 function setView(default_, thanks, already){  
   if(document.getElementById('default').style.display!=default_)
     document.getElementById('default').style.display=default_;

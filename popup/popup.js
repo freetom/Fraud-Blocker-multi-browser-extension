@@ -1,7 +1,6 @@
 
 var currentNS='';
 
-//storage.clear();
 document.addEventListener("DOMContentLoaded",mapEvents);
 
 init();
@@ -67,6 +66,11 @@ function reportFraud(){
           updateTab();
         }
       }
+      else{
+        if(document.getElementById('grey').style.display!='none')
+          document.getElementById('grey').style.display='none';
+        showOffline();
+      }
       reporting=false;
     }
   );
@@ -82,6 +86,9 @@ function avoidReport(){
     function(msg){
       if(msg.result=='ok'){
         setView('block','none','none');
+      }
+      else{
+        showOffline();
       }
       reporting=false;
     }
@@ -106,6 +113,11 @@ function conReport(){
         document.getElementById('non-fraudulent').style.borderColor='red';
         document.getElementById('dontknow').style.borderColor='#060606';
         updateTab();
+      }
+      else{
+        if(document.getElementById('grey').style.display!='none')
+          document.getElementById('grey').style.display='none';
+        showOffline();
       }
       reporting=false;
     }
@@ -144,6 +156,11 @@ function avoidAny(){
         document.getElementById('dontknow').style.borderColor='red';
 
         updateTab();
+      }
+      else{
+        if(document.getElementById('grey').style.display!='none')
+          document.getElementById('grey').style.display='none';
+        showOffline();
       }
       reporting=false;
     }
