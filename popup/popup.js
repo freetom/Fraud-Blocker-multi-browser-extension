@@ -33,6 +33,9 @@ function updateTab() {
       currentTab = tabs[0];
       currentNS=extractNS(currentTab.url);
       
+      if(document.getElementById('offline').style.display!='none')
+        document.getElementById('offline').style.display='none';
+
       pageCheck();
 
       updateDiv('url',currentNS);
