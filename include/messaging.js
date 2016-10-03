@@ -105,7 +105,7 @@ function messageHandler( msg, sender, sendResponse ){
 		notify(sendResponse);
 	}
 	else if(msg.msg=='ignore'){
-		blackListIgnore[msg.element]=1;
+		blackListIgnore[getStatus(msg.element).ns]=1;
 		chrome.tabs.reload();
 	}
 	else{
