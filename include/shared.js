@@ -1,5 +1,6 @@
 const backendName='https://fraudblocker.publicvm.com/';
 const timeZero='1970-01-01 00:00:00';
+
 var api='api/';
 
 var reportUrl=backendName+api+'report.php';
@@ -9,6 +10,8 @@ var conReportUrl=backendName+api+'conReport.php';
 var avoidConReportUrl=backendName+api+'avoidConReport.php';
 
 var storage=chrome.storage.local;
+
+var reqDefaultTimeout = 2500;
 
 /*  Given a url return the contained name server
 */

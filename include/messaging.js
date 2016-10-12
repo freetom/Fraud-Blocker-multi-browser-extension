@@ -5,8 +5,8 @@ function updateLocalList(ns,add){
   else
   	delete localList[ns];
   storage.set({local: JSON.stringify(localList)});
-  if(chrome.runtime.lastError)
-    console.log(chrome.runtime.lastError);
+  //if(chrome.runtime.lastError)
+  //  console.log(chrome.runtime.lastError);
 }
 
 function updateLocalConList(ns,add){
@@ -71,23 +71,23 @@ function getStatus(url){
  *  This is the best way I figured out to detect determined domains based on NS structure.
 */
 function notify(sendResponse){
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-    	var ret=getStatus(tabs[0].url);
-      sendResponse(ret);
-    });
+  chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+  	var ret=getStatus(tabs[0].url);
+    sendResponse(ret);
+  });
 }
 
 /*
  *  Send a GET request synchronously and return the responseText
 */
-function sendGET(url, ns){
-	try{
-		var request = new XMLHttpRequest();
-		request.open("GET", url+'?ns='+ns, false);
-		request.send();
-		return request.responseText;
-	}
-	catch(ex){	return "fail";	}
+function sendGET(url, ns, func, onTimeout){	
+	var request = new XMLHttpRequest();
+	request.open("GET", url+'?ns='+ns, true);
+  request.timeout = reqDefaultTimeout;
+  request.onload = function(){  func(request.responseText);   };
+  request.ontimeout = function(){ onTimeout();  };
+  request.onerror = function(){ onTimeout(); };
+	request.send();
 }
 
 /*
@@ -119,7 +119,11 @@ function messageHandler( msg, sender, sendResponse ){
 		var URL=null;
 		var add=null;	//true when adding to tables, false when removing (avoiding reports)
 		var con=false;	//true when reporting site as non-fraudulent
-		var request = new XMLHttpRequest();
+		
+    var onTimeout = function(){ 
+      sendResponse({result: 'timeout'}); 
+    };
+
 	  if(msg.type=='report'){
 			URL=reportUrl;
 			add=true;
@@ -162,41 +166,54 @@ function messageHandler( msg, sender, sendResponse ){
 		  sendResponse({result: 'fail'});
 		}
 		else{
-		  var response = sendGET(URL,msg.ns);
-			if(response.indexOf('ok') != -1){
-        msg.ns = response.split(" ")[1];
-				if(con){
-					updateLocalConList(msg.ns,add);
-					if(localList[msg.ns]!=null){
-						if(sendGET(avoidReportUrl,msg.ns).indexOf('ok')!=-1)
-							updateLocalList(msg.ns,false);
-						else{
-							updateLocalConList(msg.ns,!add);
-							sendResponse({result: 'fail'});
-              performing=false;
-							return true;
-						}
-					}
-				}
-				else{
-					updateLocalList(msg.ns,add);
-					if(localConList[msg.ns]!=null){
-						if(sendGET(avoidConReportUrl,msg.ns).indexOf('ok')!=-1)
-							updateLocalConList(msg.ns,false);
-						else{
-							updateLocalList(msg.ns,!add);
-							sendResponse({result: 'fail'});
-              performing=false;
-							return true;
-						}
-					}
-				}
-				sendResponse({result: 'ok', ns: msg.ns});
-			}
-			else{
-				sendResponse({result: 'fail'});
-			  //document.write(response+'<br>'+currentNS);
-			}
+		  sendGET(URL,msg.ns, 
+        function(response){ 
+    			if(response.indexOf('ok') != -1){
+            msg.ns = response.split(" ")[1];
+    				if(con){
+    					updateLocalConList(msg.ns,add);
+    					if(localList[msg.ns]!=null){
+                sendGET(avoidReportUrl,msg.ns,
+                  function(response){
+        						if(response.indexOf('ok')!=-1){
+        							updateLocalList(msg.ns,false);
+                      sendResponse({result: 'ok', ns: msg.ns});
+                    }
+        						else{
+        							updateLocalConList(msg.ns,!add);
+        							sendResponse({result: 'fail'});
+                      performing=false;
+        						}
+                  },onTimeout);
+    					}
+              else
+                sendResponse({result: 'ok', ns: msg.ns});
+    				}
+    				else{
+    					updateLocalList(msg.ns,add);
+    					if(localConList[msg.ns]!=null){
+                sendGET(avoidConReportUrl,msg.ns,
+                  function(response){
+        						if(response.indexOf('ok')!=-1){
+        							updateLocalConList(msg.ns,false);
+                      sendResponse({result: 'ok', ns: msg.ns});
+                    }
+        						else{
+        							updateLocalList(msg.ns,!add);
+        							sendResponse({result: 'fail'});
+                      performing=false;
+        						}
+                  },onTimeout);
+    					}
+              else
+                sendResponse({result: 'ok', ns: msg.ns});
+    				}
+    			}
+    			else{
+    				sendResponse({result: 'fail'});
+    			}
+        },
+        onTimeout);
 		}
 		performing=false;
 	}

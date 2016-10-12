@@ -69,7 +69,7 @@ function reportFraud(){
           updateTab();
         }
       }
-      else{
+      else if(msg.result=='timeout'){
         if(document.getElementById('grey').style.display!='none')
           document.getElementById('grey').style.display='none';
         showOffline();
@@ -90,7 +90,7 @@ function avoidReport(){
       if(msg.result=='ok'){
         setView('block','none','none');
       }
-      else{
+      else if(msg.result=='timeout'){
         showOffline();
       }
       reporting=false;
@@ -117,7 +117,7 @@ function conReport(){
         document.getElementById('dontknow').style.borderColor='#060606';
         updateTab();
       }
-      else{
+      else if(msg.result=='timeout'){
         if(document.getElementById('grey').style.display!='none')
           document.getElementById('grey').style.display='none';
         showOffline();
@@ -160,7 +160,7 @@ function avoidAny(){
 
         updateTab();
       }
-      else{
+      else if(msg.result=='timeout'){
         if(document.getElementById('grey').style.display!='none')
           document.getElementById('grey').style.display='none';
         showOffline();

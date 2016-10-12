@@ -2,7 +2,7 @@
 
   "manifest_version": 2,
   "name": "Fraud Blocker",
-  "version": "0.2.5",
+  "version": "0.2.7",
 
   "description": "Protects you from Fraudulent Sites blocking the access. If you access a site that users reported, you'll get a Warning toolbar (can be removed) that will tell you how many people reported the site and how many contro-reported. Also allow you to give fraud-feedback on the visited sites through the button on the toolbar. Official site on https://fraudblocker.publicvm.com -- For issues and concerns, write to tomasbortoli@gmail.com ",
 

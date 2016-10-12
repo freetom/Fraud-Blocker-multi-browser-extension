@@ -5,6 +5,7 @@ function fetchBL(){
     	var request = new XMLHttpRequest();
         var now=getTimeNormalized();
         request.open("GET", blackListURL+'?lastUpdate='+blackListTimestamp, true);
+        request.timeout = reqDefaultTimeout;
         request.onload = function () {
             var response = request.responseText;
             toAdd=response.split(' ')
@@ -33,6 +34,7 @@ function fetchGL(){
         var request = new XMLHttpRequest();
         var now=getTimeNormalized();
         request.open("GET", greyListURL+'?lastUpdate='+greyListTimestamp, true);
+        request.timeout = reqDefaultTimeout;
         request.onload = function () {
             var response = request.responseText;
             toAdd=response.split(' ')
@@ -60,6 +62,7 @@ function fetchWL(){
         var request = new XMLHttpRequest();
         var now=getTimeNormalized();
         request.open("GET", whiteListURL+'?lastUpdate='+whiteListTimestamp, true);
+        request.timeout = reqDefaultTimeout;
         request.onload = function () {
             var response = request.responseText;
             toAdd=response.split(' ')
@@ -87,6 +90,7 @@ function fetchRevoked(){
         var request = new XMLHttpRequest();
         var now=getTimeNormalized();
         request.open("GET", revokedURL+'?lastUpdate='+revokedTimestamp, true);
+        request.timeout = reqDefaultTimeout;
         request.onload = function () {
             var response = request.responseText;
             toRemove=response.split(' ')
