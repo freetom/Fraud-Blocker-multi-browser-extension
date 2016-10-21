@@ -27,6 +27,9 @@ function updateLocalConList(ns,add){
 */
 function getStatus(url){
   var ret={}, prec=null, current='', level=2, ns=extractNS(url);
+  if(ns=="")
+    return {ns:"",msg:"white"};
+  
   while(prec!=current){
     prec=current;
     ret.ns=current=extractSubNS(ns,level++);
