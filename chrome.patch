@@ -1,5 +1,5 @@
 diff -ur '--exclude=.git' '--exclude=web-ext-artifacts' Fraud-Blocker-multi-browser-extension/background.js chrome-fraud-blocker/background.js
---- Fraud-Blocker-multi-browser-extension/background.js	2016-10-21 15:41:27.735852928 +0200
+--- Fraud-Blocker-multi-browser-extension/background.js	2016-10-20 11:03:18.000000000 +0200
 +++ chrome-fraud-blocker/background.js	2016-10-20 15:22:24.389613082 +0200
 @@ -2,8 +2,11 @@
  chrome.runtime.onMessage.addListener(messageHandler);
@@ -15,25 +15,13 @@ diff -ur '--exclude=.git' '--exclude=web-ext-artifacts' Fraud-Blocker-multi-brow
  });
  
  
-diff -ur '--exclude=.git' '--exclude=web-ext-artifacts' Fraud-Blocker-multi-browser-extension/include/messaging.js chrome-fraud-blocker/include/messaging.js
---- Fraud-Blocker-multi-browser-extension/include/messaging.js	2016-10-21 15:41:27.735852928 +0200
-+++ chrome-fraud-blocker/include/messaging.js	2016-10-20 11:01:26.845928547 +0200
-@@ -27,6 +27,9 @@
- */
- function getStatus(url){
-   var ret={}, prec=null, current='', level=2, ns=extractNS(url);
-+  if(ns=="")
-+    return {ns:"",msg:"white"};
-+  
-   while(prec!=current){
-     prec=current;
-     ret.ns=current=extractSubNS(ns,level++);
+Solo in Fraud-Blocker-multi-browser-extension/: chrome.patch
 diff -ur '--exclude=.git' '--exclude=web-ext-artifacts' Fraud-Blocker-multi-browser-extension/manifest.json chrome-fraud-blocker/manifest.json
---- Fraud-Blocker-multi-browser-extension/manifest.json	2016-10-21 15:41:27.735852928 +0200
-+++ chrome-fraud-blocker/manifest.json	2016-10-21 15:41:18.231853055 +0200
+--- Fraud-Blocker-multi-browser-extension/manifest.json	2016-10-21 17:46:43.607983004 +0200
++++ chrome-fraud-blocker/manifest.json	2016-10-21 17:39:19.087988945 +0200
 @@ -4,19 +4,14 @@
    "name": "Fraud Blocker",
-   "version": "0.2.7",
+   "version": "0.2.8",
  
 -  "description": "Protects you from Fraudulent Sites blocking the access. If you access a site that users reported, you'll get a Warning toolbar (can be removed) that will tell you how many people reported the site and how many contro-reported. Also allow you to give fraud-feedback on the visited sites through the button on the toolbar. Official site on https://fraudblocker.publicvm.com -- For issues and concerns, write to tomasbortoli@gmail.com ",
 +  "description": "Protect from Fraudulent Sites blocking the access. Warn on sites reported but not confirmed to be Fraud. You can to report sites too",
@@ -65,7 +53,7 @@ diff -ur '--exclude=.git' '--exclude=web-ext-artifacts' Fraud-Blocker-multi-brow
  
    "browser_action": {
 diff -ur '--exclude=.git' '--exclude=web-ext-artifacts' Fraud-Blocker-multi-browser-extension/popup/guiHandler.js chrome-fraud-blocker/popup/guiHandler.js
---- Fraud-Blocker-multi-browser-extension/popup/guiHandler.js	2016-10-21 15:41:27.735852928 +0200
+--- Fraud-Blocker-multi-browser-extension/popup/guiHandler.js	2016-10-21 17:46:43.611983004 +0200
 +++ chrome-fraud-blocker/popup/guiHandler.js	2016-10-20 11:09:44.105909776 +0200
 @@ -19,6 +19,9 @@
  }
@@ -78,7 +66,7 @@ diff -ur '--exclude=.git' '--exclude=web-ext-artifacts' Fraud-Blocker-multi-brow
  
    if(document.getElementById('white').style.display!='none')
 diff -ur '--exclude=.git' '--exclude=web-ext-artifacts' Fraud-Blocker-multi-browser-extension/popup/popup.css chrome-fraud-blocker/popup/popup.css
---- Fraud-Blocker-multi-browser-extension/popup/popup.css	2016-10-21 15:41:27.735852928 +0200
+--- Fraud-Blocker-multi-browser-extension/popup/popup.css	2016-10-21 17:46:43.611983004 +0200
 +++ chrome-fraud-blocker/popup/popup.css	2016-10-20 11:26:09.877872564 +0200
 @@ -17,18 +17,22 @@
  }
@@ -127,7 +115,7 @@ diff -ur '--exclude=.git' '--exclude=web-ext-artifacts' Fraud-Blocker-multi-brow
    font-size: 1.2em;
  }
 diff -ur '--exclude=.git' '--exclude=web-ext-artifacts' Fraud-Blocker-multi-browser-extension/popup/popup.html chrome-fraud-blocker/popup/popup.html
---- Fraud-Blocker-multi-browser-extension/popup/popup.html	2016-10-21 15:41:27.735852928 +0200
+--- Fraud-Blocker-multi-browser-extension/popup/popup.html	2016-10-21 17:46:43.611983004 +0200
 +++ chrome-fraud-blocker/popup/popup.html	2016-10-20 15:28:02.581608562 +0200
 @@ -29,7 +29,7 @@
    </div>
