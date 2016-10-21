@@ -1,0 +1,138 @@
+diff -ur '--exclude=.git' '--exclude=web-ext-artifacts' Fraud-Blocker-multi-browser-extension/background.js chrome-fraud-blocker/background.js
+--- Fraud-Blocker-multi-browser-extension/background.js	2016-10-21 14:34:27.451906661 +0200
++++ chrome-fraud-blocker/background.js	2016-10-20 15:22:24.389613082 +0200
+@@ -2,8 +2,11 @@
+ chrome.runtime.onMessage.addListener(messageHandler);
+ 
+ //setup handler to inject content in 'black' and 'grey' pages
+-chrome.tabs.onActivated.addListener(function(){
+-    chrome.tabs.executeScript(null,{file:"content_script.js"});
++chrome.tabs.onActivated.addListener(function(activeInfo){
++  chrome.tabs.get(activeInfo.tabId, function(tab){
++    if(tab.url.substring(0,9)!="chrome://")
++      chrome.tabs.executeScript(null,{file:"content_script.js"});
++  });
+ });
+ 
+ 
+Solo in chrome-fraud-blocker/: chrome.patch
+diff -ur '--exclude=.git' '--exclude=web-ext-artifacts' Fraud-Blocker-multi-browser-extension/include/messaging.js chrome-fraud-blocker/include/messaging.js
+--- Fraud-Blocker-multi-browser-extension/include/messaging.js	2016-10-21 14:34:27.451906661 +0200
++++ chrome-fraud-blocker/include/messaging.js	2016-10-20 11:01:26.845928547 +0200
+@@ -27,6 +27,9 @@
+ */
+ function getStatus(url){
+   var ret={}, prec=null, current='', level=2, ns=extractNS(url);
++  if(ns=="")
++    return {ns:"",msg:"white"};
++  
+   while(prec!=current){
+     prec=current;
+     ret.ns=current=extractSubNS(ns,level++);
+diff -ur '--exclude=.git' '--exclude=web-ext-artifacts' Fraud-Blocker-multi-browser-extension/manifest.json chrome-fraud-blocker/manifest.json
+--- Fraud-Blocker-multi-browser-extension/manifest.json	2016-10-21 14:34:27.451906661 +0200
++++ chrome-fraud-blocker/manifest.json	2016-10-21 14:33:39.687907300 +0200
+@@ -6,17 +6,12 @@
+ 
+   "description": "Protects you from Fraudulent Sites blocking the access. If you access a site that users reported, you'll get a Warning toolbar (can be removed) that will tell you how many people reported the site and how many contro-reported. Also allow you to give fraud-feedback on the visited sites through the button on the toolbar. Official site on https://fraudblocker.publicvm.com -- For issues and concerns, write to tomasbortoli@gmail.com ",
+ 
++  "author": "Tomas Bortoli",
++
+   "icons": {
+     "48": "icons/icon-48.png",
+     "96": "icons/icon-96.png"
+   },
+-  
+-  "applications": {
+-    "gecko": {
+-      "id": "fraudblocker@mozilla.org",
+-      "strict_min_version": "45.0"
+-    }
+-  },
+ 
+   "permissions": [
+     "activeTab",
+@@ -29,7 +24,8 @@
+   ],  
+ 
+   "background": {
+-    "page": "background-page.html"
++    "page": "background-page.html",
++    "persistent": true
+   },
+ 
+   "browser_action": {
+diff -ur '--exclude=.git' '--exclude=web-ext-artifacts' Fraud-Blocker-multi-browser-extension/popup/guiHandler.js chrome-fraud-blocker/popup/guiHandler.js
+--- Fraud-Blocker-multi-browser-extension/popup/guiHandler.js	2016-10-21 14:34:27.451906661 +0200
++++ chrome-fraud-blocker/popup/guiHandler.js	2016-10-20 11:09:44.105909776 +0200
+@@ -19,6 +19,9 @@
+ }
+ 
+ function checkURL(msg){
++  if(msg==null || msg.msg==null)
++    return;
++  
+   var done=false;
+ 
+   if(document.getElementById('white').style.display!='none')
+diff -ur '--exclude=.git' '--exclude=web-ext-artifacts' Fraud-Blocker-multi-browser-extension/popup/popup.css chrome-fraud-blocker/popup/popup.css
+--- Fraud-Blocker-multi-browser-extension/popup/popup.css	2016-10-21 14:34:27.451906661 +0200
++++ chrome-fraud-blocker/popup/popup.css	2016-10-20 11:26:09.877872564 +0200
+@@ -17,18 +17,22 @@
+ }
+ 
+ #black{
++  width: 20em;
+   display: none;
+ }
+ 
+ #white{
++  width: 20em;
+   display: none;
+ }
+ 
+ #grey{
++  width: 20em;
+   display: none;
+ }
+ 
+ #default{
++  width: 24em;
+   visibility: hidden;
+ }
+ 
+@@ -85,6 +89,7 @@
+ }
+ 
+ #thanks{
++  width: 20em;
+   display: none;
+   padding-top: 5%;
+   text-align: center;
+@@ -92,12 +97,14 @@
+ }
+ 
+ #already{
++  width: 20em;
+   display: none;
+   text-align: center;
+   font-size: 1.1em;
+ }
+ 
+ #offline{
++  width: 20em;
+   display: none;
+   font-size: 1.2em;
+ }
+diff -ur '--exclude=.git' '--exclude=web-ext-artifacts' Fraud-Blocker-multi-browser-extension/popup/popup.html chrome-fraud-blocker/popup/popup.html
+--- Fraud-Blocker-multi-browser-extension/popup/popup.html	2016-10-21 14:34:27.451906661 +0200
++++ chrome-fraud-blocker/popup/popup.html	2016-10-20 15:28:02.581608562 +0200
+@@ -29,7 +29,7 @@
+   </div>
+   <div id="white" style="padding-left:10%;padding-right:10%;">
+     <img src="/icons/smile.png" id="smile" width="100px" height="100px" />
+-    <div class="msg" style="margin-top:5%;">This site is known to be non Fraudulent</div>
++    <div class="msg" style="padding-top:9%;padding-left:3%;">This site is known to be non Fraudulent</div>
+   </div>
+   <div id="default">
+     <img src="/icons/burglar.png" id="burglar" width="100px" height="100px"/>
