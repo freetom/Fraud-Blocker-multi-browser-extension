@@ -1,18 +1,29 @@
 # Fraud-Blocker-multi-browser-extension
-Fraud Blocker it's an add-on that **Protects** users from accessing fraudlent sites, preventing Frauds. It also **Warns** them when a site has been reported as fraudlent (but still not confirmed to be a fraud from us). Users can also **Report** a site as fraudlent or **Contro-report**, to feedback a site as non-fraudlent. The whole system is based on users' feedback.
+Fraud Blocker it's an add-on that **Protects** users from accessing fraudlent sites (in our database), preventing Frauds. It also **Warns** them when a site has been reported as fraudlent (but still not confirmed to be a fraud from us). Users can also **Report** a site as fraudlent or **Contro-report**, to feedback a site as non-fraudlent using the button on the toolbar that will open a simple popup to interact with the plug-in. The whole system is based on users' feedback.
 
-It's real-time. Users are synchronized with the server on a delay of few minutes. If you report a site as fraudlent, all the other users will see the Warning toolbar in a matter of minutes if they visit the reported site.
+The database is built from users' reports and public information available on the web.
+
+It's *real-time*. Users are synchronized with the server on a delay of few minutes. If you report a site as fraudlent, all the other users will see the Warning toolbar in a matter of minutes if they visit the reported site.
+
+Currently it supports **Firefox** and **Chrome**.
+
+
+##Firefox
+The extension was originally written for Firefox and then ported to other browsers
 
 You can Download if from [Add-ons for Firefox](https://addons.mozilla.org/en-US/firefox/addon/fraud-blocker/)
-For the moment it's only available for Firefox.
+
+
+##Chrome
+To get the chrome version, first clone the repository, then apply the patch by running `patch -p1 < chrome.patch` from the root directory of the extension
 
 
 ##Internals
 Internally the system works in this way: 
 There are 3 lists that contain name servers: **white**,**black** and **grey**.
-* The **white** list contains the sites that are known to be non-fraudlent
-* The **black** list contains the sites that are known to be fraudlent
-* The **grey** list contains the sistes that have been reported by users as fraudlent; this list also contains the number of people that have reported and the number of people that have contro-reported the signalation. In this way users feedback can reach the others in real-time.
+* The **white** list contains the sites that are known to be *non-fraudlent*
+* The **black** list contains the sites that are known to be *fraudlent*
+* The **grey** list contains the sistes that have been *reported by users as fraudlent*; this list also contains the number of people that have reported and the number of people that have contro-reported the signalation. In this way users feedback can reach the others in real-time.
 
 UPDATE LOGIC:
 There's a server that stores the lists and updates the end-points in real-time.
