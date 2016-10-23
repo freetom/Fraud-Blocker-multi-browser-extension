@@ -1,9 +1,16 @@
 # Fraud-Blocker-multi-browser-extension
-Fraud Blocker it's an add-on that **Protects** users from accessing fraudlent sites (in our database), preventing Frauds. It also **Warns** them when a site has been reported as fraudlent (but still not confirmed to be a fraud from us). Users can also **Report** a site as fraudlent or **Contro-report**, to feedback a site as non-fraudlent using the button on the toolbar that will open a simple popup to interact with the plug-in. The whole system is based on users' feedback.
+* Fraud Blocker it's an add-on that **Protects** users from accessing fraudlent sites (in our database), preventing Frauds. 
+* It also **Warns** them when a site has been reported as fraudlent (but still not confirmed to be a fraud from us).
+* Users can **Report** a site as fraudlent or **Contro-report**, to feedback a site as non-fraudlent.
 
-The database is built from users' reports and public information available on the web.
+
+The database of the fraudulent sites is built from users' reports to keep it up-to-date. But also public information available on the web were used to enlarge it.
 
 It's *real-time*. Users are synchronized with the server on a delay of few minutes. If you report a site as fraudlent, all the other users will see the Warning toolbar in a matter of minutes if they visit the reported site.
+
+___
+##### Basically is just a mechanism that allow people to signal online frauds and propagate the updates to the others to warn them and after we confirm the fraud to completely block the access to the site
+___
 
 Currently it supports **Firefox** and **Chrome**.
 
