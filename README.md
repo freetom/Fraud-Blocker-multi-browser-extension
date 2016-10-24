@@ -22,7 +22,9 @@ You can Download if from [Add-ons for Firefox](https://addons.mozilla.org/en-US/
 
 
 ##Chrome
-To get the chrome version, first clone the repository, then apply the patch by running `patch -p1 < chrome.patch` from the root directory of the extension
+To get the chrome source version, first clone the repository, then apply the patch by running `patch -p1 < chrome.patch` from the root directory of the extension
+
+You can install if from [Chrome WebStore Page](https://chrome.google.com/webstore/detail/fraud-blocker/mbkgkcnibjdpieobolniabeakmlpfhhk)
 
 
 ##Internals
