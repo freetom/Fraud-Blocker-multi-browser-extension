@@ -1,4 +1,8 @@
+
+@import url('https://fonts.googleapis.com/css?family=Lato|Oswald:300,400');
+
 body{
+
   -webkit-touch-callout: none; /* iOS Safari */
   -webkit-user-select: none;   /* Chrome/Safari/Opera */
   -khtml-user-select: none;    /* Konqueror */
@@ -6,24 +10,100 @@ body{
   -ms-user-select: none;       /* Internet Explorer/Edge */
   user-select: none;           /* Non-prefixed version, currently
                                   not supported by any browser */
+  background:#F44336;
+  font-family: 'Lato', sans-serif;
+  color:#ffffff;
+
 }
 
-.title{
-  font-size: 3.7em;
-  text-align: center;
-  float:right;
+
+
+h1,h2 {
+
+    font-family: 'Oswald', sans-serif;
+    margin: 0px;
+    padding: 0px;
+    color:white;
+
+}
+
+h1 {
+
+    font-size:100px;
+    -webkit-margin-before: 0.0em;
+    -webkit-margin-after: 0.0em;
+
+}
+
+h2 {
+
+    font-size:39px;
+    font-weight:300;
+
+}
+
+.main {
+
+    max-width:700px;
+    text-align:center;
+    margin:50px auto;
+
+}
+  
+.credits {
+
+    margin: 20px 0px;
+    font-size:9px;
+
+}
+.img-center {
+
+    margin:0 auto;
+
 }
 
 #burglar{
   vertical-align: middle;
 }
 
-.img{
-  margin-left: 45%;
-}
-
 .ignore{
   text-decoration: underline;
   cursor: pointer;
 
+}
+
+a {
+
+    font-weight:bold;
+    color:#f0f0f0;
+
+}
+
+.btn {
+
+    font-weight:normal;
+    display: inline-block;
+    background-color: #ff5b4f; /*#ff8178;*/
+    color: #FFFFFF;
+    padding: 14px 25px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    opacity: 0.9;
+
+}
+
+.btn:hover {
+    color: rgb(253, 253, 253);
+    background-color: #f44336;
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
+
+
+.more {
+    padding:20px 15px;
+    display:none;
+    max-width:500px;
+    margin:16px auto;
+    background:#ff5b4f;/*#ff8178;*/
 }
