@@ -1,13 +1,45 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <script>
+        var status = 0;
+        function show() {
+            if (status == 0) {
+
+                document.getElementsByClassName('more')[0].style.display = 'block';
+                document.getElementsByClassName('btn')[0].innerHTML = 'LESS INFO';
+                status = 1; 
+
+            } else {
+                
+                document.getElementsByClassName('more')[0].style.display = 'none';
+                document.getElementsByClassName('btn')[0].innerHTML = 'MORE INFO';
+                status = 0;
+            }
+        }
+
+    </script>
     <meta charset="utf-8">
     <link rel="stylesheet" href="black.css">
   </head>
   <body>
-    <span>
-      <img src="/icons/fraud-200.png" class="img">
-      <span class="title"> <p>Page Blocked by Fraud Blocker. </p> You can proceed anyway by clicking <img id="burglar" src="/icons/fraud-200.png" width="30px" height="30px" /> (on Toolbar) and then, "Ignore Danger" at your own risk.</span>
-    </span>
+    <div class="main">
+      <div class="img-centered">
+        <img src="icons/thief.svg" width="300px" height="300px">
+      </div>
+      <h1>WARNING !</h1>
+      <h2>Page Blocked by Fraud Blocker. </h2>
+  
+      <p>You can proceed anyway by clicking <img id="burglar" src="icons/fraud-200.png" width="30px" height="30px" /> (on Toolbar) and then, "Ignore Danger" at your own risk.</p>
+      <a onclick="show()" class="btn">MORE INFO</a>
+      <div class="more">This site have been reported by our community users as malicious, continuing with navigation you may be threatened or your privacy could be compromised.
+       <br/> <b>Our suggestion is to turn back keeping your navigation safe.</b> </div>
+      <div class="credits">
+        Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a>
+        from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a>
+        is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" 
+        title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a>
+      </div> 
+    </div>
   </body>
 </html>
