@@ -16,6 +16,11 @@ if(document.title!=blockedTitle && document.getElementById("greyPageToolbar")==n
 
 
 function initBlack(ns) {
+  
+  //check that the domain match to prevent race conditions if the user changes/opens tabs quickly
+  if(document.domain.indexOf(ns)==-1)
+    return;
+    
   //fix for pages that instead of a BODY has a FRAMESET
   if(document.body.tagName=='FRAMESET'){
     var x=document.getElementsByTagName("frameset")[0];
@@ -37,9 +42,8 @@ function initBlack(ns) {
   iframe.setAttribute("style", "position: fixed; top: 0; left: 0; z-index: 10000; width: 100%; height: 100%;");
   iframe.setAttribute("frameBorder","0");
 
-  //check that the domain match to prevent race conditions if the user changes/opens tabs quickly
-  if(document.domain.indexOf(ns)!=-1)
-    document.body.appendChild(iframe);
+  
+  document.body.appendChild(iframe);
 
 }
 
