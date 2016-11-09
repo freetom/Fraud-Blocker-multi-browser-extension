@@ -12,7 +12,7 @@ ___
 ##### Basically is just a mechanism that allow people to signal online frauds and propagate the updates to the others to warn them and after we confirm the fraud to completely block the access to the site
 ___
 
-Currently it supports **Firefox** and **Chrome**.
+Currently it supports **Firefox** and **Chrome** on **GNU/Linux**, **Windows** and **OSX**. Unfortunately **Fiefox Mobile** is still not supported because of APIs incompatibilities.
 
 
 ##Firefox
