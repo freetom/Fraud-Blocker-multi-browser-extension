@@ -85,11 +85,12 @@ function notify(sendResponse){
 */
 function sendGET(url, ns, func, onTimeout){	
 	var request = new XMLHttpRequest();
+  var type = (url==reportUrl)?0:(url==conReport)?1:(url==avoidReport)?2:(url==avoidConReport)?3:-1;
 	request.open("GET", url+'?ns='+ns, true);
   request.timeout = reqDefaultTimeout;
   request.onload = function(){  func(request.responseText);   };
-  request.ontimeout = function(){ onTimeout();  };
-  request.onerror = function(){ onTimeout(); };
+  request.ontimeout = function(){ onTimeout(ns, type); };
+  request.onerror = function(){ onTimeout(ns, type); };
 	request.send();
 }
 
@@ -123,8 +124,22 @@ function messageHandler( msg, sender, sendResponse ){
 		var add=null;	//true when adding to tables, false when removing (avoiding reports)
 		var con=false;	//true when reporting site as non-fraudulent
 		
-    var onTimeout = function(){ 
+    var onTimeout = function(ns, type){ 
       sendResponse({result: 'timeout'}); 
+
+      var present=false,i=0;
+      while(i<any_pending_reports.length){ //is it already in the list?
+        if(any_pending_reports[i].report==ns){
+          present=true;
+          break;
+        }
+        i++;
+      }
+
+      if(!present){  //it's not if the list, push!
+        any_pending_reports.push({ report: ns, report_type: type});
+        storage.set({pendingReports: JSON.stringify(any_pending_reports)});
+      }
     };
 
 	  if(msg.type=='report'){

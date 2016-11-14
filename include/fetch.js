@@ -8,7 +8,7 @@ function fetchBL(){
         request.timeout = reqDefaultTimeout;
         request.onload = function () {
             var response = request.responseText;
-            toAdd=response.split(' ')
+            toAdd=response.split(' ');
             toAdd.pop() //remove last elemenet, always ''
             if(toAdd[0]!='list')
                 return;

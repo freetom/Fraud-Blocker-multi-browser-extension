@@ -17,6 +17,8 @@ var whiteList=null;
 var whiteListTimestamp=null;
 var revokedTimestamp=null;
 
+var any_pending_reports=[];
+
 var lastSyncTimestamp=null;
 var synchronizing=false;
 
@@ -96,6 +98,10 @@ function init(res){
     else
         lastSyncTimestamp=res.lastSync;
 
+    if(res.pendingReports!=null){
+        any_pending_reports=parseObj(res.pendingReports);
+    }
+
     fetchBL();
     fetchWL();
     fetchGL();
@@ -108,5 +114,43 @@ function init(res){
     setInterval(fetchRevoked,1800000);   //30 min
     
     setInterval(syncLists,   3600000);  //60 min
+
+
+    setInterval(pendingReports, 30000) //30 sec .. 
+}
+
+//reports failed are added to a queue and are sent here
+//changes are propagated to the local data structures (do the same as in messaging.js)
+function pendingReports(){
+    if(any_pending_reports.length!==0){
+        var pending_report=any_pending_reports.pop();
+        any_pending_reports.push(pending_report);
+        var type = pending_report.report_type;
+        var url=(type==0)?reportUrl:(type==1)?conReportUrl:(type==2)?avoidReportUrl:(type==3)?avoidConReportUrl:-1;
+        if(url==-1){    //practically impossible but just in case
+            any_pending_reports.pop();
+            storage.set({pendingReports: JSON.stringify(any_pending_reports)});
+            return;
+        }
+        var request = new XMLHttpRequest();
+        request.open("GET", url+'?ns='+pending_report.report, true);
+        request.timeout = reqDefaultTimeout;
+        request.onload = function () {
+            var response = request.responseText;
+            if(response.indexOf('ok')!=-1){
+                var ns = response.split(' ')[1];
+                if(type%2==0)
+                    updateLocalList(ns, (type==0)?true:false);
+                else
+                    updateLocalConList(ns, (type==1)?true:false);
+            }
+            any_pending_reports.pop();  //even if server say error, we have to remove it or it will loop again.
+            //short story long.. if the server catch the message and it fails is because the ns is in another list
+            storage.set({pendingReports: JSON.stringify(any_pending_reports)});
+        };
+        request.ontimeout = function(){   };
+        request.onerror = function(){  };
+        request.send();
+    }   
 }
 
