@@ -26,6 +26,17 @@ To get the chrome source version, first clone the repository, then apply the pat
 
 You can install if from [Chrome WebStore Page](https://chrome.google.com/webstore/detail/fraud-blocker/mbkgkcnibjdpieobolniabeakmlpfhhk)
 
+##Privacy
+We do not collect any personal information on users.
+
+##Versioning
+Version number have the following structure: MajorVersionNumber.MinorVersionNumber.PatchNumber
+MajorVersionNumber is unused at the moment
+
+MinorVersionNumber is updated when new features or graphics is implemented
+
+PatchNumber changes when a patch is introduced, for bux fixing, improvements or other minor changes
+
 
 ##Internals
 Internally the system works in this way: 
