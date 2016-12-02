@@ -59,3 +59,7 @@ Synchronization between the three lists is maintained with the following logic:
 DATABASE (back-end) UPDATE LOGIC:
 So in brief, to keep the database updated, records can be added to **white**,**black** and **grey** tables;
 records can be removed from black and grey **but** the white table must keep all the records and when a records want to be removed from the clients, the _flag_ 'revoked' must be set to true; so the change is propagated to clients and the system works.
+
+
+## Acknowledgements
+Thanks to all the people that improve the system, users, developers and thanks to Mozilla AMO Editor team for their work.

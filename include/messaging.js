@@ -27,7 +27,11 @@ function updateLocalConList(ns,add){
 */
 function getStatus(url){
   var ret={}, prec=null, current='', level=2, ns=extractNS(url);
+  //handle the empty case
   if(ns=="")
+    return {ns:"",msg:"white"};
+  //if visiting an IP instead of a NS, ignore it anyway
+  if(/^(?!.*\.$)((?!0\d)(1?\d?\d|25[0-5]|2[0-4]\d)(\.|$)){4}$/.test(ns) )
     return {ns:"",msg:"white"};
   
   while(prec!=current){
