@@ -10,7 +10,7 @@ function syncLists(){
 const syncDelay=3600000*4;	//4 hours is good
 function syncHelper(){
 	//every 4 hours, sync lists
-	if(strToDate(lastSyncTimestamp)-strToDate(getTimeNormalized())>syncDelay){
+	if(strToDate(getTimeNormalized())-strToDate(lastSyncTimestamp)>syncDelay){
 		try{
 			for(var site in whiteList){
 				if(blackList[site]!=null)

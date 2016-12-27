@@ -1,18 +1,36 @@
-diff -u -r ../Fraud-Blocker-multi-browser-extension/background.js ./background.js
---- ../Fraud-Blocker-multi-browser-extension/background.js	2016-12-27 14:13:48.275890960 +0100
-+++ ./background.js	2016-12-27 15:21:57.887853687 +0100
-@@ -3,7 +3,8 @@
+diff -ur '--exclude=.git' '--exclude=chrome.patch' ../Fraud-Blocker-multi-browser-extension/background.js ./background.js
+--- ../Fraud-Blocker-multi-browser-extension/background.js	2016-12-27 15:58:07.095833918 +0100
++++ ./background.js	2016-12-27 15:41:04.447843238 +0100
+@@ -3,16 +3,18 @@
  
  //setup handler to update browser action's badge text
  chrome.tabs.onActivated.addListener(function(activeInfo){
 -  chrome.tabs.executeScript(null,{file:"content_script.js"});
-+  if(tab.url.substring(0,9)!="chrome://")
-+    chrome.tabs.executeScript(null,{file:"content_script.js"});
-   
+-  
    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-     var res = getStatus(tabs[0].url);
-diff -u -r ../Fraud-Blocker-multi-browser-extension/manifest.json ./manifest.json
---- ../Fraud-Blocker-multi-browser-extension/manifest.json	2016-12-27 15:15:01.343857484 +0100
+-    var res = getStatus(tabs[0].url);
+-    if(res.msg=="grey"){
+-      var nFraud=res.nFraud;
+-      if(isNaN(nFraud)) //sanitize
+-        nFraud='error';
+-      chrome.browserAction.setBadgeText({tabId: activeInfo.tabId, text: nFraud});
+-      chrome.browserAction.setBadgeBackgroundColor({tabId: activeInfo.tabId, color: "#cc0000"});
++    if(tabs[0].url.substring(0,9)!="chrome://"){
++      chrome.tabs.executeScript(null,{file:"content_script.js"});
++      
++      var res = getStatus(tabs[0].url);
++      if(res.msg=="grey"){
++        var nFraud=res.nFraud;
++        if(isNaN(nFraud)) //sanitize
++          nFraud='error';
++        chrome.browserAction.setBadgeText({tabId: activeInfo.tabId, text: nFraud});
++        chrome.browserAction.setBadgeBackgroundColor({tabId: activeInfo.tabId, color: "#cc0000"});
++      }
+     }
+   });
+ });
+diff -ur '--exclude=.git' '--exclude=chrome.patch' ../Fraud-Blocker-multi-browser-extension/manifest.json ./manifest.json
+--- ../Fraud-Blocker-multi-browser-extension/manifest.json	2016-12-27 15:58:07.099833918 +0100
 +++ ./manifest.json	2016-12-27 15:21:03.083854187 +0100
 @@ -4,19 +4,14 @@
    "name": "Fraud Blocker",
@@ -47,8 +65,8 @@ diff -u -r ../Fraud-Blocker-multi-browser-extension/manifest.json ./manifest.jso
    },
  
    "browser_action": {
-diff -u -r ../Fraud-Blocker-multi-browser-extension/popup/guiHandler.js ./popup/guiHandler.js
---- ../Fraud-Blocker-multi-browser-extension/popup/guiHandler.js	2016-12-27 15:15:01.343857484 +0100
+diff -ur '--exclude=.git' '--exclude=chrome.patch' ../Fraud-Blocker-multi-browser-extension/popup/guiHandler.js ./popup/guiHandler.js
+--- ../Fraud-Blocker-multi-browser-extension/popup/guiHandler.js	2016-12-27 15:58:07.099833918 +0100
 +++ ./popup/guiHandler.js	2016-12-27 15:21:03.083854187 +0100
 @@ -19,6 +19,9 @@
  }
@@ -60,9 +78,9 @@ diff -u -r ../Fraud-Blocker-multi-browser-extension/popup/guiHandler.js ./popup/
    var done=false;
  
    if(document.getElementById('white').style.display!='none')
-diff -u -r ../Fraud-Blocker-multi-browser-extension/popup/popup.css ./popup/popup.css
---- ../Fraud-Blocker-multi-browser-extension/popup/popup.css	2016-12-27 15:15:01.343857484 +0100
-+++ ./popup/popup.css	2016-12-27 15:31:47.507848314 +0100
+diff -ur '--exclude=.git' '--exclude=chrome.patch' ../Fraud-Blocker-multi-browser-extension/popup/popup.css ./popup/popup.css
+--- ../Fraud-Blocker-multi-browser-extension/popup/popup.css	2016-12-27 15:58:07.099833918 +0100
++++ ./popup/popup.css	2016-12-27 15:37:28.603845205 +0100
 @@ -8,6 +8,7 @@
    user-select: none;           /* Non-prefixed version, currently
                                    not supported by any browser */
@@ -80,12 +98,12 @@ diff -u -r ../Fraud-Blocker-multi-browser-extension/popup/popup.css ./popup/popu
  }
  
  #white{
-+  width: 20em;
++  width: 30em;
    display: none;
  }
  
  #grey{
-+  width: 20em;
++  width: 30em;
    display: none;
  }
  
@@ -98,7 +116,7 @@ diff -u -r ../Fraud-Blocker-multi-browser-extension/popup/popup.css ./popup/popu
  }
  
  #thanks{
-+  width: 20em;
++  width: 30em;
    display: none;
    padding-top: 5%;
    text-align: center;
@@ -106,19 +124,19 @@ diff -u -r ../Fraud-Blocker-multi-browser-extension/popup/popup.css ./popup/popu
  }
  
  #already{
-+  width: 20em;
++  width: 30em;
    display: none;
    text-align: center;
    font-size: 1.1em;
  }
  
  #offline{
-+  width: 20em;
++  width: 30em;
    display: none;
    font-size: 1.2em;
  }
-diff -u -r ../Fraud-Blocker-multi-browser-extension/popup/popup.html ./popup/popup.html
---- ../Fraud-Blocker-multi-browser-extension/popup/popup.html	2016-12-27 15:15:01.343857484 +0100
+diff -ur '--exclude=.git' '--exclude=chrome.patch' ../Fraud-Blocker-multi-browser-extension/popup/popup.html ./popup/popup.html
+--- ../Fraud-Blocker-multi-browser-extension/popup/popup.html	2016-12-27 15:58:07.099833918 +0100
 +++ ./popup/popup.html	2016-12-27 15:21:03.083854187 +0100
 @@ -29,7 +29,7 @@
    </div>
