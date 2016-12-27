@@ -108,15 +108,15 @@ function init(res){
     fetchRevoked();
     syncLists();
 
-    setInterval(fetchBL, 600000); //10 min
-    setInterval(fetchWL,1200000); //20 min
-    setInterval(fetchGL, 300000); //5 min
-    setInterval(fetchRevoked,1800000);   //30 min
+    setInterval(fetchBL,1800000); //30 min
+    setInterval(fetchWL,3600000); //60 min
+    setInterval(fetchGL, 900000); //15 min
+    setInterval(fetchRevoked,3600000);   //60 min
     
-    setInterval(syncLists,   3600000);  //60 min
+    setInterval(syncLists,   7200000);  //120 min
 
 
-    setInterval(pendingReports, 30000) //30 sec .. 
+    setInterval(pendingReports, 300000) //5 min 
 }
 
 //reports failed are added to a queue and are sent here
