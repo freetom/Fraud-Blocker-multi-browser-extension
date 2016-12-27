@@ -11,7 +11,7 @@ var avoidConReportUrl=backendName+api+'avoidConReport.php';
 
 var storage=chrome.storage.local;
 
-var reqDefaultTimeout = 2500;
+var reqDefaultTimeout = 5000;
 
 /*  Given a url return the contained name server
 */
@@ -59,8 +59,7 @@ function extractSubNS(ns,level){
  * Used to have time synchronized with Server
 */
 function getTimeNormalized(){
-  //const romeOffset=-120; // +2.00 hours
-  const romeOffset=240; //actual offset in minutes for server location (east coast)
+  const romeOffset=-60; // +1.00 hour
   const msInOneMin=60000;
 
   var d = new Date()

@@ -1,6 +1,6 @@
 function syncLists(){
 	synchronizing=true;
-	setTimeout(syncHelper,3000);	//wait so if the fetch functions are running they terminate
+	setTimeout(syncHelper,reqDefaultTimeout);	//wait so if the fetch functions are running they terminate
 }
 
 /*	Sync the lists with the following logic

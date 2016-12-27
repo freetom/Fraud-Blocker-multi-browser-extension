@@ -15,7 +15,7 @@ function fetchBL(){
             for(i=1;i<toAdd.length;i++){
                 blackList[toAdd[i]]=1;
             }
-            if(toAdd.length>0){
+            if(toAdd.length>1){
                 storage.set({black: JSON.stringify(blackList)});
                 blackListTimestamp=now;
                 storage.set({blackTimestamp: blackListTimestamp});
@@ -44,7 +44,7 @@ function fetchGL(){
             for(i=1;i<toAdd.length;i+=3){
                 greyList[toAdd[i]]={reports: toAdd[i+1], contro_reports: toAdd[i+2]};
             }
-            if(toAdd.length>0){
+            if(toAdd.length>1){
                 storage.set({grey: JSON.stringify(greyList)});
                 greyListTimestamp=now;
                 storage.set({greyTimestamp: greyListTimestamp});
@@ -72,7 +72,7 @@ function fetchWL(){
             for(i=1;i<toAdd.length;i++){
                 whiteList[toAdd[i]]=1;
             }
-            if(toAdd.length>0){
+            if(toAdd.length>1){
                 storage.set({white: JSON.stringify(whiteList)});
                 whiteListTimestamp=now;
                 storage.set({whiteTimestamp: whiteListTimestamp});
@@ -101,7 +101,7 @@ function fetchRevoked(){
                 if(whiteList[toRemove[i]]!=null)
                    delete whiteList[toRemove[i]]; 
             }
-            if(toRemove.length>0){
+            if(toRemove.length>1){
                 storage.set({white: JSON.stringify(whiteList)});
                 revokedTimestamp=now;
                 storage.set({revoked: revokedTimestamp});

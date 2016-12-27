@@ -140,7 +140,7 @@ function messageHandler( msg, sender, sendResponse ){
         i++;
       }
 
-      if(!present){  //it's not if the list, push!
+      if(!present){  //it's not in the list, push!
         any_pending_reports.push({ report: ns, report_type: type});
         storage.set({pendingReports: JSON.stringify(any_pending_reports)});
       }
