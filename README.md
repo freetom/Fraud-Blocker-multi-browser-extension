@@ -7,7 +7,7 @@ Main features:
 
 The system **expect** users to report fraudulent sites to keep the database up-to-date with the current threats etc.
 
-It's *real-time*. Users are synchronized with the server on a delay of few minutes. If you report a site as fraudlent, all the other users will see the Warning toolbar in a matter of minutes if they visit the reported site.
+It's *real-time*. Users are synchronized with the server on a delay of few minutes. If you report a site as fraudlent, all the other users will see ![example](https://fraudblocker.publicvm.com/images/fraud-1.png) (on toolbar) if they visit the reported site. That "1" indicates that one user reported the site.
 
 ___
 ##### Basically is just a mechanism that allow people to signal online frauds/scam/dangerous sites and propagate the updates to the others to warn them and after we confirm the fraud to completely block the access to the site
