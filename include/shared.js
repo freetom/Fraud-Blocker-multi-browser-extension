@@ -11,7 +11,15 @@ var avoidConReportUrl=backendName+api+'avoidConReport.php';
 
 var storage=chrome.storage.local;
 
-var reqDefaultTimeout = 5000;
+var reqDefaultTimeout = 5000; // 5 sec
+
+var pendingReportsLapse=300000;  //5 min
+var greyUpdateLapse    =900000;  // 15 min
+var blackUpdateLapse   =1800000; // 30 min
+var whiteUpdateLapse   =3600000; // 1h
+var revokeUpdateLapse  =3600000; // 1h
+var localSyncLapse     =28800000;// 8h
+
 
 /*  Given a url return the contained name server
 */

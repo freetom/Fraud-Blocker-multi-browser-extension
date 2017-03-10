@@ -17,6 +17,11 @@ var whiteList=null;
 var whiteListTimestamp=null;
 var revokedTimestamp=null;
 
+var blackLastAttemptTimestamp=null;
+var greyLastAttemptTimestamp=null;
+var whiteLastAttemptTimestamp=null;
+var revokedLastAttemptTimestamp=null;
+
 var any_pending_reports=[];
 
 var lastSyncTimestamp=null;
@@ -56,6 +61,12 @@ function init(res){
     }
     else
         blackListTimestamp=res.blackTimestamp;
+    if(res.blackLastAttempt==null){
+        blackLastAttemptTimestamp=timeZero;
+        storage.set({blackLastAttempt: blackLastAttemptTimestamp});
+    }
+    else
+        blackLastAttemptTimestamp=res.blackLastAttempt;
 
     if(res.grey==null){
     	greyList={};
@@ -70,7 +81,13 @@ function init(res){
     }
     else
         greyListTimestamp=res.greyTimestamp;
-    
+    if(res.greyLastAttempt==null){
+        greyLastAttemptTimestamp=timeZero;
+        storage.set({greyLastAttempt: greyLastAttemptTimestamp});
+    }
+    else
+        greyLastAttemptTimestamp=res.greyLastAttempt;
+
     if(res.white==null){
         whiteList={};
         storage.set({white: whiteList});
@@ -83,6 +100,12 @@ function init(res){
     }
     else
         whiteListTimestamp=res.whiteTimestamp;
+    if(res.whiteLastAttempt==null){
+        whiteLastAttemptTimestamp=timeZero;
+        storage.set({whiteLastAttempt: whiteLastAttemptTimestamp});
+    }
+    else
+        whiteLastAttemptTimestamp=res.whiteLastAttempt;
 
     if(res.revoked==null){
         revokedTimestamp=timeZero;
@@ -90,6 +113,12 @@ function init(res){
     }
     else
         revokedTimestamp=res.revoked;
+    if(res.revokedLastAttempt==null){
+        revokedLastAttemptTimestamp=timeZero;
+        storage.set({revokedLastAttempt: revokedLastAttemptTimestamp});
+    }
+    else
+        revokedLastAttemptTimestamp=res.revokedLastAttempt;
 
     if(res.lastSync==null){
         lastSyncTimestamp=getTimeNormalized();
@@ -108,15 +137,15 @@ function init(res){
     fetchRevoked();
     syncLists();
 
-    setInterval(fetchBL,1800000); //30 min
-    setInterval(fetchWL,3600000); //60 min
-    setInterval(fetchGL, 900000); //15 min
-    setInterval(fetchRevoked,3600000);   //60 min
+    setInterval(fetchBL,blackUpdateLapse);
+    setInterval(fetchWL,whiteUpdateLapse);
+    setInterval(fetchGL,greyUpdateLapse);
+    setInterval(fetchRevoked,revokeUpdateLapse);
     
-    setInterval(syncLists,   7200000);  //120 min
+    setInterval(syncLists,localSyncLapse);
 
 
-    setInterval(pendingReports, 300000) //5 min 
+    setInterval(pendingReports, pendingReportsLapse);
 }
 
 //reports failed are added to a queue and are sent here

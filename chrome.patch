@@ -1,6 +1,6 @@
 diff -ur '--exclude=.git' '--exclude=chrome.patch' ../Fraud-Blocker-multi-browser-extension/background.js ./background.js
---- ../Fraud-Blocker-multi-browser-extension/background.js	2016-12-28 17:53:19.815906858 +0100
-+++ ./background.js	2016-12-28 17:50:23.403908466 +0100
+--- ../Fraud-Blocker-multi-browser-extension/background.js	2017-03-10 13:41:19.487672589 +0100
++++ ./background.js	2017-03-10 13:48:18.963654966 +0100
 @@ -4,13 +4,17 @@
  
  function checkTab(info){
@@ -26,14 +26,15 @@ diff -ur '--exclude=.git' '--exclude=chrome.patch' ../Fraud-Blocker-multi-browse
      }
      else
        chrome.browserAction.setBadgeText({tabId: tabs[0].tabId, text: ""});
+Solo in ../Fraud-Blocker-multi-browser-extension: background.js.BACK
 diff -ur '--exclude=.git' '--exclude=chrome.patch' ../Fraud-Blocker-multi-browser-extension/manifest.json ./manifest.json
---- ../Fraud-Blocker-multi-browser-extension/manifest.json	2016-12-28 17:52:51.007907121 +0100
-+++ ./manifest.json	2016-12-28 18:03:13.307901449 +0100
+--- ../Fraud-Blocker-multi-browser-extension/manifest.json	2017-03-10 13:50:36.603649184 +0100
++++ ./manifest.json	2017-03-10 13:50:56.863648333 +0100
 @@ -4,19 +4,14 @@
    "name": "Fraud Blocker",
-   "version": "0.4.5",
+   "version": "0.4.6",
  
--  "description": "Protects you from Fraudulent Sites blocking the access. If you access a site that users reported, you'll get a Warning toolbar (can be removed) that will tell you how many people reported the site and how many contro-reported. Also allow you to give fraud-feedback on the visited sites through the button on the toolbar. Official site on https://fraudblocker.publicvm.com -- For issues and concerns, write to tomasbortoli@gmail.com ",
+-  "description": "Protects you from Fraudulent Sites blocking the access. If you access a site that users reported, you'll see how many people reported it on the button on toolbar. The plug-in also allows you to give fraud-feedback on the visited sites through the button on toolbar. Official site on https://fraudblocker.publicvm.com -- For issues and concerns, write to tomasbortoli@gmail.com ",
 +  "description": "Protect from Fraudulent Sites blocking the access. Warn on sites reported but not confirmed to be Fraud. You can to report sites too",
 +
 +  "author": "Tomas Bortoli",
@@ -63,8 +64,8 @@ diff -ur '--exclude=.git' '--exclude=chrome.patch' ../Fraud-Blocker-multi-browse
  
    "browser_action": {
 diff -ur '--exclude=.git' '--exclude=chrome.patch' ../Fraud-Blocker-multi-browser-extension/popup/guiHandler.js ./popup/guiHandler.js
---- ../Fraud-Blocker-multi-browser-extension/popup/guiHandler.js	2016-12-28 17:53:19.815906858 +0100
-+++ ./popup/guiHandler.js	2016-12-28 17:43:20.343912322 +0100
+--- ../Fraud-Blocker-multi-browser-extension/popup/guiHandler.js	2017-01-04 12:13:24.847826412 +0100
++++ ./popup/guiHandler.js	2017-03-10 13:48:18.963654966 +0100
 @@ -19,6 +19,9 @@
  }
  
@@ -76,8 +77,8 @@ diff -ur '--exclude=.git' '--exclude=chrome.patch' ../Fraud-Blocker-multi-browse
  
    if(document.getElementById('white').style.display!='none')
 diff -ur '--exclude=.git' '--exclude=chrome.patch' ../Fraud-Blocker-multi-browser-extension/popup/popup.css ./popup/popup.css
---- ../Fraud-Blocker-multi-browser-extension/popup/popup.css	2016-12-28 17:53:19.815906858 +0100
-+++ ./popup/popup.css	2016-12-28 17:43:20.343912322 +0100
+--- ../Fraud-Blocker-multi-browser-extension/popup/popup.css	2017-01-04 12:13:24.847826412 +0100
++++ ./popup/popup.css	2017-03-10 13:48:18.963654966 +0100
 @@ -8,6 +8,7 @@
    user-select: none;           /* Non-prefixed version, currently
                                    not supported by any browser */
@@ -133,8 +134,8 @@ diff -ur '--exclude=.git' '--exclude=chrome.patch' ../Fraud-Blocker-multi-browse
    font-size: 1.2em;
  }
 diff -ur '--exclude=.git' '--exclude=chrome.patch' ../Fraud-Blocker-multi-browser-extension/popup/popup.html ./popup/popup.html
---- ../Fraud-Blocker-multi-browser-extension/popup/popup.html	2016-12-28 17:53:19.815906858 +0100
-+++ ./popup/popup.html	2016-12-28 17:43:20.343912322 +0100
+--- ../Fraud-Blocker-multi-browser-extension/popup/popup.html	2017-01-04 12:13:24.847826412 +0100
++++ ./popup/popup.html	2017-03-10 13:48:18.963654966 +0100
 @@ -29,7 +29,7 @@
    </div>
    <div id="white" style="padding-left:10%;padding-right:10%;">
