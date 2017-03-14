@@ -1,5 +1,5 @@
 var blockedTitle='FraudBlocker Protection';
-if(document.title!=blockedTitle && document.getElementById("greyPageToolbar")==null)
+if(document.title!=blockedTitle)
   chrome.runtime.sendMessage(
     { msg:'check' },
     function(msg){

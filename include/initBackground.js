@@ -1,8 +1,9 @@
 
 var blackListURL= backendName+api+'blackList.php';
 var greyListURL = backendName+api+'greyList.php';
-var whiteListURL = backendName+api+'whiteList.php';
-var revokedURL =  backendName+api+'revoked.php';
+var whiteListURL= backendName+api+'whiteList.php';
+var revokedURL  = backendName+api+'revoked.php';
+var subleasesURL= backendName+api+'subleases.php';
 
 var quickstartURL = backendName+'quickstart.html';
 
@@ -16,11 +17,14 @@ var greyListTimestamp=null;
 var whiteList=null;
 var whiteListTimestamp=null;
 var revokedTimestamp=null;
+var subleasesList=null;
+var subleasesListTimestamp=null;
 
 var blackLastAttemptTimestamp=null;
 var greyLastAttemptTimestamp=null;
 var whiteLastAttemptTimestamp=null;
 var revokedLastAttemptTimestamp=null;
+var subleasesLastAttemptTimestamp=null;
 
 var any_pending_reports=[];
 
@@ -120,6 +124,25 @@ function init(res){
     else
         revokedLastAttemptTimestamp=res.revokedLastAttempt;
 
+    if(res.subleases==null){
+        subleasesList={};
+        storage.set({subleases: subleasesList});
+    }
+    else
+        subleasesList=parseObj(res.subleases);
+    if(res.subleasesTimestamp==null){
+        subleasesListTimestamp=timeZero;
+        storage.set({subleasesTimestamp:subleasesListTimestamp});
+    }
+    else
+        subleasesListTimestamp=res.subleasesTimestamp;
+    if(res.subleasesLastAttempt==null){
+        subleasesLastAttemptTimestamp=timeZero;
+        storage.set({subleasesLastAttempt: subleasesLastAttemptTimestamp});
+    }
+    else
+        subleasesLastAttemptTimestamp=res.subleasesLastAttempt;
+
     if(res.lastSync==null){
         lastSyncTimestamp=getTimeNormalized();
         storage.set({lastSync:lastSyncTimestamp});
@@ -135,12 +158,14 @@ function init(res){
     fetchWL();
     fetchGL();
     fetchRevoked();
+    fetchSubleases();
     syncLists();
 
     setInterval(fetchBL,blackUpdateLapse);
     setInterval(fetchWL,whiteUpdateLapse);
     setInterval(fetchGL,greyUpdateLapse);
     setInterval(fetchRevoked,revokeUpdateLapse);
+    setInterval(fetchSubleases,subleasesUpdateLapse);
     
     setInterval(syncLists,localSyncLapse);
 

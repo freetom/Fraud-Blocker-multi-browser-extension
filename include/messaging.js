@@ -26,7 +26,7 @@ function updateLocalConList(ns,add){
  *  are bad too.
 */
 function getStatus(url){
-  var ret={}, prec=null, current='', level=2, ns=extractNS(url);
+  var ret={}, prec=null, current='', level=2, ns=extractNS(url), check_sublease=false;
   //handle the empty case
   if(ns=="")
     return {ns:"",msg:"white"};
@@ -43,7 +43,11 @@ function getStatus(url){
     else if(localConList[current]!=null)
       ret.conLocal=true;
 
-    if(whiteList[current]!=null){
+    if(subleasesList[current]!=null){
+      ret.msg="white";
+      check_sublease=true;
+    }
+    else if(whiteList[current]!=null){
         ret.msg= "white";
         break;
       }
@@ -61,6 +65,8 @@ function getStatus(url){
         break;
     }
     else{
+      if(prec==current && check_sublease) //no subdomain to check, return white
+        break;
       ret.msg="";
       continue;
     }
@@ -89,7 +95,7 @@ function notify(sendResponse){
 */
 function sendGET(url, ns, func, onTimeout){	
 	var request = new XMLHttpRequest();
-  var type = (url==reportUrl)?0:(url==conReport)?1:(url==avoidReport)?2:(url==avoidConReport)?3:-1;
+  var type = (url==reportUrl)?0:(url==conReportUrl)?1:(url==avoidReportUrl)?2:(url==avoidConReportUrl)?3:-1;
 	request.open("GET", url+'?ns='+ns, true);
   request.timeout = reqDefaultTimeout;
   request.onload = function(){  func(request.responseText);   };

@@ -123,3 +123,34 @@ function fetchRevoked(){
     catch(ex){}
 }
 
+//update list of domains that provide subdomains as a service (e.g altervista)
+function fetchSubleases(){
+    try{
+        if( strToDate(getTimeNormalized())-strToDate(subleasesLastAttemptTimestamp) > subleasesUpdateLapse ){
+            if(synchronizing)
+                return;
+            var request = new XMLHttpRequest();
+            var now=getTimeNormalized();
+            request.open("GET", subleasesURL+'?lastUpdate='+subleasesListTimestamp, true);
+            request.timeout = reqDefaultTimeout;
+            request.onload = function () {
+                var response = request.responseText;
+                toAdd=response.split(' ')
+                toAdd.pop() //remove last elemenet, always ''
+                if(toAdd[0]!='list')
+                    return;
+                for(i=1;i<toAdd.length;i++){
+                    subleasesList[toAdd[i]]=1;
+                }
+                if(toAdd.length>1){
+                    storage.set({subleases: JSON.stringify(subleasesList)});
+                    subleasesListTimestamp=now;
+                    storage.set({subleasesTimestamp: subleasesListTimestamp});
+                }
+                storage.set({subleasesLastAttempt: now});
+            };
+            request.send();
+        }
+    }
+    catch(ex){}
+}

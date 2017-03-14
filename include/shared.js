@@ -15,11 +15,11 @@ var reqDefaultTimeout = 5000; // 5 sec
 
 var pendingReportsLapse=300000;  //5 min
 var greyUpdateLapse    =900000;  // 15 min
-var blackUpdateLapse   =1800000; // 30 min
-var whiteUpdateLapse   =3600000; // 1h
-var revokeUpdateLapse  =3600000; // 1h
+var blackUpdateLapse   =3600000; // 1h
+var whiteUpdateLapse   =7200000; // 2h
+var revokeUpdateLapse  =7200000; // 2h
 var localSyncLapse     =28800000;// 8h
-
+var subleasesUpdateLapse=14400000;// 4h
 
 /*  Given a url return the contained name server
 */

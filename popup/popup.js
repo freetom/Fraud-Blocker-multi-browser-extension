@@ -111,18 +111,20 @@ function conReport(){
   chrome.runtime.sendMessage(
     {type: 'conReport', ns: currentNS},
     function(msg){
-      if(msg.result=='ok'){
-        document.getElementById('fraudulent').style.borderColor='#060606';
-        document.getElementById('non-fraudulent').style.borderColor='red';
-        document.getElementById('dontknow').style.borderColor='#060606';
-        updateTab();
+      if(msg!=null){
+        if(msg.result=='ok'){
+          document.getElementById('fraudulent').style.borderColor='#060606';
+          document.getElementById('non-fraudulent').style.borderColor='red';
+          document.getElementById('dontknow').style.borderColor='#060606';
+          updateTab();
+        }
+        else if(msg.result=='timeout'){
+          if(document.getElementById('grey').style.display!='none')
+            document.getElementById('grey').style.display='none';
+          showOffline();
+        }
+        reporting=false;
       }
-      else if(msg.result=='timeout'){
-        if(document.getElementById('grey').style.display!='none')
-          document.getElementById('grey').style.display='none';
-        showOffline();
-      }
-      reporting=false;
     }
   );
 }
@@ -153,17 +155,19 @@ function avoidAny(){
   chrome.runtime.sendMessage(
     {type: 'avoidAny', ns: currentNS},
     function(msg){
-      if(msg.result=='ok'){
-        document.getElementById('fraudulent').style.borderColor='#060606';
-        document.getElementById('non-fraudulent').style.borderColor='#060606';
-        document.getElementById('dontknow').style.borderColor='red';
+      if(msg!=null){
+        if(msg.result=='ok'){
+          document.getElementById('fraudulent').style.borderColor='#060606';
+          document.getElementById('non-fraudulent').style.borderColor='#060606';
+          document.getElementById('dontknow').style.borderColor='red';
 
-        updateTab();
-      }
-      else if(msg.result=='timeout'){
-        if(document.getElementById('grey').style.display!='none')
-          document.getElementById('grey').style.display='none';
-        showOffline();
+          updateTab();
+        }
+        else if(msg.result=='timeout'){
+          if(document.getElementById('grey').style.display!='none')
+            document.getElementById('grey').style.display='none';
+          showOffline();
+        }
       }
       reporting=false;
     }
