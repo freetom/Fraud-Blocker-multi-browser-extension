@@ -32,7 +32,7 @@ diff -ur '--exclude=.git' '--exclude=chrome.patch' ../Fraud-Blocker-multi-browse
 +++ ./manifest.json	2017-03-10 13:50:56.863648333 +0100
 @@ -4,19 +4,14 @@
    "name": "Fraud Blocker",
-   "version": "0.4.6",
+   "version": "0.5.0",
  
 -  "description": "Protects you from Fraudulent Sites blocking the access. If you access a site that users reported, you'll see how many people reported it on the button on toolbar. The plug-in also allows you to give fraud-feedback on the visited sites through the button on toolbar. Official site on https://fraudblocker.publicvm.com -- For issues and concerns, write to tomasbortoli@gmail.com ",
 +  "description": "Protect from Fraudulent Sites blocking the access. Warn on sites reported but not confirmed to be Fraud. You can to report sites too",
