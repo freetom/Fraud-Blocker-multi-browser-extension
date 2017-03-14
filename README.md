@@ -16,21 +16,21 @@ ___
 Currently it supports **Firefox** and **Chrome** on **GNU/Linux**, **Windows** and **OSX**. Unfortunately **Fiefox Mobile** is still not supported because of APIs incompatibilities.
 
 
-##Firefox
+## Firefox
 The extension was originally written for Firefox and then ported to other browsers
 
 You can Download if from the official [Add-ons for Firefox](https://addons.mozilla.org/en-US/firefox/addon/fraud-blocker/)
 
 
-##Chrome
+## Chrome
 To get the chrome source version, first clone the repository, then apply the patch by running `patch -p1 < chrome.patch` from the root directory of the extension
 
 You can install it in your Chrome from [Chrome WebStore Page](https://chrome.google.com/webstore/detail/fraud-blocker/mbkgkcnibjdpieobolniabeakmlpfhhk)
 
-##Privacy
+## Privacy
 We do not collect any personal information on users.
 
-##Versioning
+## Versioning
 Version number have the following structure: MajorVersionNumber.MinorVersionNumber.PatchNumber
 
 MajorVersionNumber is unused at the moment
@@ -40,7 +40,7 @@ MinorVersionNumber is updated when new features or graphics is implemented
 PatchNumber changes when a patch is introduced, for bux fixing, improvements or other minor changes
 
 
-##Internals
+## Internals
 Internally the system works in this way: 
 There are 3 lists that contain name servers: **white**,**black** and **grey**.
 * The **white** list contains the sites that are known to be *non-fraudlent*
