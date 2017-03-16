@@ -80,19 +80,19 @@ function checkURL(msg){
     document.getElementById("nReports").innerHTML=nFraud;
     document.getElementById("nControReports").innerHTML=nGood;
     if(msg.local!=null){
-      document.getElementById("fraudulent").style.borderColor='red';
-      document.getElementById("non-fraudulent").style.borderColor='#060606';
-      document.getElementById("dontknow").style.borderColor='#060606';
+      setSelected("fraudulent")
+      setUnselected("non-fraudulent")
+      setUnselected("dontknow")
     }
     else if(msg.conLocal!=null){
-      document.getElementById("fraudulent").style.borderColor='#0606060';
-      document.getElementById("non-fraudulent").style.borderColor='red';
-      document.getElementById("dontknow").style.borderColor='#060606';
+      setUnselected("fraudulent")
+      setSelected("non-fraudulent")
+      setUnselected("dontknow")
     }
     else{
-      document.getElementById("fraudulent").style.borderColor='#060606';
-      document.getElementById("non-fraudulent").style.borderColor='#060606';
-      document.getElementById("dontknow").style.borderColor='red';
+      setUnselected("fraudulent")
+      setUnselected("non-fraudulent")
+      setSelected("dontknow")
     }
     if(checkDisplay('grey','block'))
       setDisplay('grey','block');
