@@ -12,8 +12,6 @@ function ignore(){
   window.close();
 }
 
-
-
 function pageCheck(){
   chrome.runtime.sendMessage({msg:'check'},checkURL); 
 }
@@ -21,9 +19,7 @@ function pageCheck(){
 function init(){
   chrome.tabs.onActivated.addListener(updateTab);
   updateTab();
-
 }
-
 
 /*  Get the url of the current active tab and update the popup with the new url 
 */
@@ -33,14 +29,14 @@ function updateTab() {
       currentTab = tabs[0];
       currentNS=extractNS(currentTab.url);
       
-      if(document.getElementById('offline').style.display!='none')
-        document.getElementById('offline').style.display='none';
+      if(checkDisplay('offline','none'))
+        setDisplay('offline','none')
 
       pageCheck();
 
       updateDiv('url',currentNS);
-      if(document.getElementById('default').style.visibility!='visible')
-        document.getElementById('default').style.visibility='visible';
+      if(checkVisibility('default','visible'))
+        setVisibility('default','visible')
     }
   });
 }
@@ -48,8 +44,7 @@ function updateTab() {
 var reporting=false;
 function reportFraud(){
   //already selected?
-  if(document.getElementById('grey').style.display!='none' &&
-    document.getElementById('fraudulent').style.borderColor=='red')
+  if( checkDisplay('grey','none') && checkSelected('fraudulent') )
     return;
 
   if(reporting)
@@ -60,18 +55,18 @@ function reportFraud(){
     {type: 'report', ns: currentNS},
     function(msg){
       if(msg.result=='ok'){
-        if(document.getElementById('grey').style.display=='none')
+        if(checkDisplay('grey','none'))
           setView('none','block','none');
         else{
-          document.getElementById('fraudulent').style.borderColor='red';
-          document.getElementById('non-fraudulent').style.borderColor='#060606';
-          document.getElementById('dontknow').style.borderColor='#060606';
+          setSelected('fraudulent')
+          setUnselected('non-fraudulent')
+          setUnselected('dontknow')
           updateTab();
         }
       }
       else if(msg.result=='timeout'){
-        if(document.getElementById('grey').style.display!='none')
-          document.getElementById('grey').style.display='none';
+        if(checkDisplay('grey','none'))
+          setDisplay('grey','none');
         showOffline();
       }
       reporting=false;
@@ -100,8 +95,7 @@ function avoidReport(){
 
 function conReport(){
   //already reported?
-  if(document.getElementById('grey').style.display!='none' &&
-    document.getElementById('non-fraudulent').style.borderColor=='red')
+  if(checkDisplay('grey','none') && checkSelected('non-fraudulent'))
     return;
 
   if(reporting)
@@ -113,14 +107,14 @@ function conReport(){
     function(msg){
       if(msg!=null){
         if(msg.result=='ok'){
-          document.getElementById('fraudulent').style.borderColor='#060606';
-          document.getElementById('non-fraudulent').style.borderColor='red';
-          document.getElementById('dontknow').style.borderColor='#060606';
+          setUnselected('fraudulent')
+          setSelected('non-fraudulent')
+          setUnselected('dontknow')
           updateTab();
         }
         else if(msg.result=='timeout'){
-          if(document.getElementById('grey').style.display!='none')
-            document.getElementById('grey').style.display='none';
+          if(checkDisplay('grey','none'))
+            setDisplay('grey','none');
           showOffline();
         }
         reporting=false;
@@ -144,8 +138,7 @@ function avoidConReport(){
 }
 
 function avoidAny(){
-  if(document.getElementById('grey').style.display!='none' &&
-    document.getElementById('dontknow').style.borderColor=='red')
+  if(checkDisplay('grey','none') && checkSelected('dontknow','red'))
     return;
 
   if(reporting)
@@ -157,15 +150,15 @@ function avoidAny(){
     function(msg){
       if(msg!=null){
         if(msg.result=='ok'){
-          document.getElementById('fraudulent').style.borderColor='#060606';
-          document.getElementById('non-fraudulent').style.borderColor='#060606';
-          document.getElementById('dontknow').style.borderColor='red';
+          setUnselected('fraudulent')
+          setUnselected('non-fraudulent')
+          setSelected('dontknow')
 
           updateTab();
         }
         else if(msg.result=='timeout'){
-          if(document.getElementById('grey').style.display!='none')
-            document.getElementById('grey').style.display='none';
+          if(checkDisplay('grey','none'))
+            setDisplay('grey','none');
           showOffline();
         }
       }

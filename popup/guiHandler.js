@@ -1,3 +1,31 @@
+function checkDisplay(el, val){
+  return document.getElementById(el).style.display!=val;
+}
+
+function setDisplay(el, val){
+  document.getElementById(el).style.display=val;
+}
+
+function checkVisibility(el, val){
+  return document.getElementById(el).style.visibility!=val;
+}
+
+function setVisibility(el, val){
+  document.getElementById(el).style.visibility=val;
+}
+
+function checkSelected(el){
+  return document.getElementById(el).style.borderColor=='red';
+}
+
+function setSelected(el){
+  return document.getElementById(el).style.borderColor='red';
+}
+
+function setUnselected(el){
+  return document.getElementById(el).style.borderColor='#060606';
+}
+
 function updateDiv(div, content){
   div=document.getElementById(div); 
   div.innerHTML=content;
@@ -5,38 +33,38 @@ function updateDiv(div, content){
 
 function showOffline(){
   setView('none','none','none');
-  if(document.getElementById('offline').style.display!='block')
-    document.getElementById('offline').style.display='block';
+  if(checkDisplay('offline','block'))
+    setDisplay('offline','block');
 }
 
 function setView(default_, thanks, already){  
-  if(document.getElementById('default').style.display!=default_)
-    document.getElementById('default').style.display=default_;
-  if(document.getElementById('thanks').style.display!=thanks)
-    document.getElementById('thanks').style.display=thanks;
-  if(document.getElementById('already').style.display!=already)
-    document.getElementById('already').style.display=already;
+  if(checkDisplay('default','none'))
+    setDisplay('default','none');
+  if(checkDisplay('thanks','none'))
+    setDisplay('thanks','none');
+  if(checkDisplay('already','none'))
+    setDisplay('already','none');
 }
 
 function checkURL(msg){
   var done=false;
 
-  if(document.getElementById('white').style.display!='none')
-    document.getElementById('white').style.display='none';
-  if(document.getElementById('black').style.display!='none')
-    document.getElementById('black').style.display='none';
-  if(document.getElementById('grey').style.display!='none')
-    document.getElementById('grey').style.display='none';
+  if(checkDisplay('white','none'))
+    setDisplay('white','none');
+  if(checkDisplay('black','none'))
+    setDisplay('black','none');
+  if(checkDisplay('grey','none'))
+    setDisplay('grey','none');
   if(msg.msg=='white'){
     setView('none','none','none');
-    if(document.getElementById('white').style.display!='block')
-      document.getElementById('white').style.display='block';
+    if(checkDisplay('white','block'))
+      setDisplay('white','block');
     done = true;
   }
   else if(msg.msg=='black' || msg.msg=='ignored'){
     setView('none','none','none');
-    if(document.getElementById('black').style.display!='block')
-      document.getElementById('black').style.display='block';
+    if(checkDisplay('black','block'))
+      setDisplay('black','block');
     done = true;
   }
   else if(msg.msg=='grey'){
@@ -66,17 +94,17 @@ function checkURL(msg){
       document.getElementById("non-fraudulent").style.borderColor='#060606';
       document.getElementById("dontknow").style.borderColor='red';
     }
-    if(document.getElementById('grey').style.display!='block')
-      document.getElementById('grey').style.display='block';
+    if(checkDisplay('grey','block'))
+      setDisplay('grey','block');
     done = true;
   }
   else{
-    if(document.getElementById('white').style.display!='none')
-      document.getElementById('white').style.display='none';
-    if(document.getElementById('black').style.display!='none')
-      document.getElementById('black').style.display='none';
-    if(document.getElementById('grey').style.display!='none')
-      document.getElementById('grey').style.display='none'; 
+    if(checkDisplay('white','none'))
+      setDisplay('white','none');
+    if(checkDisplay('black','none'))
+      setDisplay('black','none');
+    if(checkDisplay('grey','none'))
+      setDisplay('grey','none');
     done = false;
   }
 
