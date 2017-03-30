@@ -1,6 +1,6 @@
-diff -ur '--exclude=.git' '--exclude=chrome.patch' ../Fraud-Blocker-multi-browser-extension/background.js ./background.js
---- ../Fraud-Blocker-multi-browser-extension/background.js	2017-03-10 13:41:19.487672589 +0100
-+++ ./background.js	2017-03-10 13:48:18.963654966 +0100
+diff -ru -x '*.git*' -x chrome.patch ./background.js ../chrome/background.js
+--- ./background.js	2017-03-14 17:25:59.035647281 +0100
++++ ../chrome/background.js	2017-03-30 15:31:16.707693231 +0200
 @@ -4,13 +4,17 @@
  
  function checkTab(info){
@@ -26,10 +26,9 @@ diff -ur '--exclude=.git' '--exclude=chrome.patch' ../Fraud-Blocker-multi-browse
      }
      else
        chrome.browserAction.setBadgeText({tabId: tabs[0].tabId, text: ""});
-Solo in ../Fraud-Blocker-multi-browser-extension: background.js.BACK
-diff -ur '--exclude=.git' '--exclude=chrome.patch' ../Fraud-Blocker-multi-browser-extension/manifest.json ./manifest.json
---- ../Fraud-Blocker-multi-browser-extension/manifest.json	2017-03-10 13:50:36.603649184 +0100
-+++ ./manifest.json	2017-03-10 13:50:56.863648333 +0100
+diff -ru -x '*.git*' -x chrome.patch ./manifest.json ../chrome/manifest.json
+--- ./manifest.json	2017-03-14 17:25:59.035647281 +0100
++++ ../chrome/manifest.json	2017-03-30 15:31:16.707693231 +0200
 @@ -4,19 +4,14 @@
    "name": "Fraud Blocker",
    "version": "0.5.0",
@@ -63,10 +62,11 @@ diff -ur '--exclude=.git' '--exclude=chrome.patch' ../Fraud-Blocker-multi-browse
    },
  
    "browser_action": {
-diff -ur '--exclude=.git' '--exclude=chrome.patch' ../Fraud-Blocker-multi-browser-extension/popup/guiHandler.js ./popup/guiHandler.js
---- ../Fraud-Blocker-multi-browser-extension/popup/guiHandler.js	2017-01-04 12:13:24.847826412 +0100
-+++ ./popup/guiHandler.js	2017-03-10 13:48:18.963654966 +0100
-@@ -19,6 +19,9 @@
+Solo in .: out
+diff -ru -x '*.git*' -x chrome.patch ./popup/guiHandler.js ../chrome/popup/guiHandler.js
+--- ./popup/guiHandler.js	2017-03-30 15:21:16.491705087 +0200
++++ ../chrome/popup/guiHandler.js	2017-03-30 15:31:16.707693231 +0200
+@@ -47,6 +47,9 @@
  }
  
  function checkURL(msg){
@@ -75,10 +75,10 @@ diff -ur '--exclude=.git' '--exclude=chrome.patch' ../Fraud-Blocker-multi-browse
 +  
    var done=false;
  
-   if(document.getElementById('white').style.display!='none')
-diff -ur '--exclude=.git' '--exclude=chrome.patch' ../Fraud-Blocker-multi-browser-extension/popup/popup.css ./popup/popup.css
---- ../Fraud-Blocker-multi-browser-extension/popup/popup.css	2017-01-04 12:13:24.847826412 +0100
-+++ ./popup/popup.css	2017-03-10 13:48:18.963654966 +0100
+   if(checkDisplay('white','none'))
+diff -ru -x '*.git*' -x chrome.patch ./popup/popup.css ../chrome/popup/popup.css
+--- ./popup/popup.css	2017-03-14 17:25:59.035647281 +0100
++++ ../chrome/popup/popup.css	2017-03-30 15:31:16.707693231 +0200
 @@ -8,6 +8,7 @@
    user-select: none;           /* Non-prefixed version, currently
                                    not supported by any browser */
@@ -133,9 +133,9 @@ diff -ur '--exclude=.git' '--exclude=chrome.patch' ../Fraud-Blocker-multi-browse
    display: none;
    font-size: 1.2em;
  }
-diff -ur '--exclude=.git' '--exclude=chrome.patch' ../Fraud-Blocker-multi-browser-extension/popup/popup.html ./popup/popup.html
---- ../Fraud-Blocker-multi-browser-extension/popup/popup.html	2017-01-04 12:13:24.847826412 +0100
-+++ ./popup/popup.html	2017-03-10 13:48:18.963654966 +0100
+diff -ru -x '*.git*' -x chrome.patch ./popup/popup.html ../chrome/popup/popup.html
+--- ./popup/popup.html	2017-03-14 17:25:59.035647281 +0100
++++ ../chrome/popup/popup.html	2017-03-30 15:31:16.707693231 +0200
 @@ -29,7 +29,7 @@
    </div>
    <div id="white" style="padding-left:10%;padding-right:10%;">

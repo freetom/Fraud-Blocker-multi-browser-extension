@@ -8,12 +8,12 @@ init();
 function ignore(){
   chrome.runtime.sendMessage(
     { msg:'ignore', element:currentNS }
-  );  
+  );
   window.close();
 }
 
 function pageCheck(){
-  chrome.runtime.sendMessage({msg:'check'},checkURL); 
+  chrome.runtime.sendMessage({msg:'check'},checkURL);
 }
 
 function init(){
@@ -21,14 +21,14 @@ function init(){
   updateTab();
 }
 
-/*  Get the url of the current active tab and update the popup with the new url 
+/*  Get the url of the current active tab and update the popup with the new url
 */
 function updateTab() {
   chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
     if (tabs[0]) {
       currentTab = tabs[0];
       currentNS=extractNS(currentTab.url);
-      
+
       if(checkDisplay('offline','none'))
         setDisplay('offline','none')
 
@@ -55,7 +55,7 @@ function reportFraud(){
     {type: 'report', ns: currentNS},
     function(msg){
       if(msg.result=='ok'){
-        if(checkDisplay('grey','none'))
+        if(checkDisplay('grey','block'))
           setView('none','block','none');
         else{
           setSelected('fraudulent')

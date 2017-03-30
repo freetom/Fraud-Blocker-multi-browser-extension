@@ -27,7 +27,7 @@ function setUnselected(el){
 }
 
 function updateDiv(div, content){
-  div=document.getElementById(div); 
+  div=document.getElementById(div);
   div.innerHTML=content;
 }
 
@@ -37,13 +37,13 @@ function showOffline(){
     setDisplay('offline','block');
 }
 
-function setView(default_, thanks, already){  
-  if(checkDisplay('default','none'))
-    setDisplay('default','none');
-  if(checkDisplay('thanks','none'))
-    setDisplay('thanks','none');
-  if(checkDisplay('already','none'))
-    setDisplay('already','none');
+function setView(default_, thanks, already){
+  if(checkDisplay('default',default_))
+    setDisplay('default',default_);
+  if(checkDisplay('thanks',thanks))
+    setDisplay('thanks',thanks);
+  if(checkDisplay('already',already))
+    setDisplay('already',already);
 }
 
 function checkURL(msg){
@@ -115,4 +115,3 @@ function checkURL(msg){
   else
     setView('block','none','none');
 }
-
