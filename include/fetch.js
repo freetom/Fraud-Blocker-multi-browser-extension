@@ -108,7 +108,9 @@ function fetchRevoked(){
                     return;
                 for(i=1;i<toRemove.length;i++){
                     if(whiteList[toRemove[i]]!=null)
-                       delete whiteList[toRemove[i]]; 
+                        delete whiteList[toRemove[i]];
+                    if(subleasesList[toRemove[i]]!=null)
+                        delete subleasesList[toRemove[i]];
                 }
                 if(toRemove.length>1){
                     storage.set({white: JSON.stringify(whiteList)});
