@@ -22,24 +22,41 @@ var localSyncLapse     =28800000;// 8h
 var subleasesUpdateLapse=14400000;// 4h
 
 /*  Given a url return the contained name server
+ *  Syntax: [protocol://]nameserver[:port][/path]
+ *  Syntax of name server: Nth_level_domain.[..].TLD
 */
 function extractNS(url){
-  var i=0;
   var j=url.indexOf('/',0);
   var i=url.indexOf(':',0);
-  if(j==-1) // url without any '/' return as is
-    return url;
-  else if(j+1==url.length)  // only one slash as last char
-    return url.substring(0,url.length-1);
-  else if(j!=i+1 && i==-1)  // no prot:// ... 
-    return url.substring(0,j);
-  
+  if(j==-1){ // url without any '/'
+    if(i!=-1) // but contains ':'
+      return url.substring(0,i);  // url like: somehost.com:port
+    else
+      return url; //like: somehost.com
+  }
+  else if(j+1==url.length){  // only one '/' as last char
+    if(i!=-1 && i<j)  //but ':' before the '/'
+      return url.substring(0,i); //url like: somehost.com:5002/
+    else
+      return url.substring(0,url.length-1); //url like: somehost.com/
+  }
+  else if(j!=i+1){  // no prot:// ...
+    if(i!=-1 && i<j)  //but ':' before '/'
+      return url.substring(0,i);  //url like: somehost.com:port/path
+    else
+      return url.substring(0,j);  //url like: somehost.com/path
+  }
+
+  //urls like: protocol://somehost.com[:port]/path
   j+=2; // skip '//'
-  i=url.indexOf('/',j);
-  if(i==-1)
-    return url.substring(j);
+  i=url.indexOf('/',j); //find the '/' after the name server
+  var z=url.indexOf(':',j); //find the ':' after the name server in case a port is specified
+  if(z!=-1 && (z<i || i==-1))
+    return url.substring(j,z);  //like: protocol://somehost.com:port/path
+  else if(i==-1)
+    return url.substring(j);  //like: protocol://somehost.com
   else
-    return url.substring(j,i);
+    return url.substring(j,i);  //like: protocol://somehost.com/path
 }
 
 /*  Given a url return nameserver at a certain deepness
@@ -73,7 +90,7 @@ function getTimeNormalized(){
   var d = new Date()
   var n = d.getTimezoneOffset()
   var t= d.getTime();
-  
+
   if(n<0){
     t -= (-n+romeOffset)*msInOneMin;
   }
@@ -86,7 +103,7 @@ function getTimeNormalized(){
 
 function parseObj(x){
   var y=null;
-  
+
   try{
     y=JSON.parse(x);
   }

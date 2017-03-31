@@ -2,7 +2,7 @@
 
   "manifest_version": 2,
   "name": "Fraud Blocker",
-  "version": "0.5.0",
+  "version": "0.5.1",
 
   "description": "Protects you from Fraudulent Sites blocking the access. If you access a site that users reported, you'll see how many people reported it on the button on toolbar. The plug-in also allows you to give fraud-feedback on the visited sites through the button on toolbar. Official site on https://fraudblocker.publicvm.com -- For issues and concerns, write to tomasbortoli@gmail.com ",
 
@@ -10,7 +10,7 @@
     "48": "icons/icon-48.png",
     "96": "icons/icon-96.png"
   },
-  
+
   "applications": {
     "gecko": {
       "id": "fraudblocker@mozilla.org",
@@ -24,9 +24,9 @@
     "webRequest",
     "webNavigation",
     "storage",
-    "http://*/*", 
+    "http://*/*",
     "https://*/*"
-  ],  
+  ],
 
   "background": {
     "page": "background-page.html"
@@ -56,4 +56,3 @@
     "icons/fraud-200.png"
   ]
 }
-
