@@ -26,6 +26,13 @@ var subleasesUpdateLapse=14400000;// 4h
  *  Syntax of name server: Nth_level_domain.[..].TLD
 */
 function extractNS(url){
+  var res=extractNSHelper(url);
+  if(res[res.length-1]=='.')
+    res=res.substring(0,res.length-1);
+  return res;
+}
+
+function extractNSHelper(url){
   var j=url.indexOf('/',0);
   var i=url.indexOf(':',0);
   if(j==-1){ // url without any '/'

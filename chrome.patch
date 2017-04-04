@@ -2,7 +2,7 @@ diff -ru -x '*.git*' -x chrome.patch ./background.js ../chrome/background.js
 --- ./background.js	2017-03-14 17:25:59.035647281 +0100
 +++ ../chrome/background.js	2017-03-30 15:31:16.707693231 +0200
 @@ -4,13 +4,17 @@
- 
+
  function checkTab(info){
    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
 -    var res = getStatus(tabs[0].url);
@@ -12,7 +12,7 @@ diff -ru -x '*.git*' -x chrome.patch ./background.js ../chrome/background.js
 -        nFraud='error';
 -      chrome.browserAction.setBadgeText({tabId: tabs[0].tabId, text: nFraud});
 -      chrome.browserAction.setBadgeBackgroundColor({tabId: tabs[0].tabId, color: "#cc0000"});
-+    if(tabs[0].url.substring(0,9)!="chrome://"){      
++    if(tabs[0].url.substring(0,9)!="chrome://"){
 +      var res = getStatus(tabs[0].url);
 +      if(res.msg=="grey"){
 +        var nFraud=res.nFraud;
@@ -31,36 +31,36 @@ diff -ru -x '*.git*' -x chrome.patch ./manifest.json ../chrome/manifest.json
 +++ ../chrome/manifest.json	2017-03-30 15:31:16.707693231 +0200
 @@ -4,19 +4,14 @@
    "name": "Fraud Blocker",
-   "version": "0.5.0",
- 
+   "version": "0.5.2",
+
 -  "description": "Protects you from Fraudulent Sites blocking the access. If you access a site that users reported, you'll see how many people reported it on the button on toolbar. The plug-in also allows you to give fraud-feedback on the visited sites through the button on toolbar. Official site on https://fraudblocker.publicvm.com -- For issues and concerns, write to tomasbortoli@gmail.com ",
 +  "description": "Protect from Fraudulent Sites blocking the access. Warn on sites reported but not confirmed to be Fraud. You can to report sites too",
 +
 +  "author": "Tomas Bortoli",
- 
+
    "icons": {
      "48": "icons/icon-48.png",
      "96": "icons/icon-96.png"
    },
--  
+-
 -  "applications": {
 -    "gecko": {
 -      "id": "fraudblocker@mozilla.org",
 -      "strict_min_version": "45.0"
 -    }
 -  },
- 
+
    "permissions": [
      "activeTab",
 @@ -29,7 +24,8 @@
-   ],  
- 
+   ],
+
    "background": {
 -    "page": "background-page.html"
 +    "page": "background-page.html",
 +    "persistent": true
    },
- 
+
    "browser_action": {
 Solo in .: out
 diff -ru -x '*.git*' -x chrome.patch ./popup/guiHandler.js ../chrome/popup/guiHandler.js
@@ -68,13 +68,13 @@ diff -ru -x '*.git*' -x chrome.patch ./popup/guiHandler.js ../chrome/popup/guiHa
 +++ ../chrome/popup/guiHandler.js	2017-03-30 15:31:16.707693231 +0200
 @@ -47,6 +47,9 @@
  }
- 
+
  function checkURL(msg){
 +  if(msg==null || msg.msg==null)
 +    return;
-+  
++
    var done=false;
- 
+
    if(checkDisplay('white','none'))
 diff -ru -x '*.git*' -x chrome.patch ./popup/popup.css ../chrome/popup/popup.css
 --- ./popup/popup.css	2017-03-14 17:25:59.035647281 +0100
@@ -85,34 +85,34 @@ diff -ru -x '*.git*' -x chrome.patch ./popup/popup.css ../chrome/popup/popup.css
    overflow-y: hidden;
 +  overflow-x: hidden;
  }
- 
+
  body{
 @@ -19,18 +20,22 @@
  }
- 
+
  #black{
 +  width: 30em;
    display: none;
  }
- 
+
  #white{
 +  width: 30em;
    display: none;
  }
- 
+
  #grey{
 +  width: 30em;
    display: none;
  }
- 
+
  #default{
 +  width: 24em;
    visibility: hidden;
  }
- 
+
 @@ -96,6 +101,7 @@
  }
- 
+
  #thanks{
 +  width: 30em;
    display: none;
@@ -120,14 +120,14 @@ diff -ru -x '*.git*' -x chrome.patch ./popup/popup.css ../chrome/popup/popup.css
    text-align: center;
 @@ -104,12 +110,14 @@
  }
- 
+
  #already{
 +  width: 30em;
    display: none;
    text-align: center;
    font-size: 1.1em;
  }
- 
+
  #offline{
 +  width: 30em;
    display: none;
