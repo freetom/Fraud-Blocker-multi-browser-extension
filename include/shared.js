@@ -27,7 +27,7 @@ var subleasesUpdateLapse=14400000;// 4h
 */
 function extractNS(url){
   var res=extractNSHelper(url);
-  if(res[res.length-1]=='.')
+  if(res.length>0 && res[res.length-1]=='.')
     res=res.substring(0,res.length-1);
   return res;
 }
