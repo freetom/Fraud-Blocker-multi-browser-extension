@@ -28,7 +28,11 @@ function setUnselected(el){
 
 function updateDiv(div, content){
   div=document.getElementById(div);
-  div.innerHTML=content;
+  safeContent=/^([a-zA-Z0-9\-\. ])*$/
+  if(safeContent.test(content))
+    div.innerHTML=content;
+  else
+    div.innerHTML='invalid content provided';
 }
 
 function showOffline(){
