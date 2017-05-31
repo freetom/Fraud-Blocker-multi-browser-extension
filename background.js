@@ -9,8 +9,10 @@ function checkTab(info){
       var nFraud=res.nFraud;
       if(isNaN(nFraud)) //sanitize
         nFraud='error';
-      chrome.browserAction.setBadgeText({tabId: tabs[0].tabId, text: nFraud});
-      chrome.browserAction.setBadgeBackgroundColor({tabId: tabs[0].tabId, color: "#cc0000"});
+      if(nFraud>0){
+        chrome.browserAction.setBadgeText({tabId: tabs[0].tabId, text: nFraud});
+        chrome.browserAction.setBadgeBackgroundColor({tabId: tabs[0].tabId, color: "#cc0000"});
+      }
     }
     else
       chrome.browserAction.setBadgeText({tabId: tabs[0].tabId, text: ""});
