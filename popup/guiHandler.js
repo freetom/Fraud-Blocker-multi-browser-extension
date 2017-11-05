@@ -65,7 +65,7 @@ function checkURL(msg){
       setDisplay('white','block');
     done = true;
   }
-  else if(msg.msg=='black' || msg.msg=='ignored'){
+  else if(msg.msg=='black' || msg.msg=='ignored' || msg.msg=='blocked'){
     setView('none','none','none');
     if(checkDisplay('black','block'))
       setDisplay('black','block');

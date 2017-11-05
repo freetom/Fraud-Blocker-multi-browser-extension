@@ -28,7 +28,7 @@ function updateLocalConList(ns,add){
 function getStatus(url){
   //if the url is the "blocked" page, then retrieve the blocked URL
   if(url.split('?')[0]==chrome.extension.getURL('web/black.html'))
-    url=decodeURIComponent(url.split('?')[1]);
+    return {ns:"",msg:"blocked"}
 
   var ret={}, prec=null, current='', level=2, ns=extractNS(url), check_sublease=false;
   //handle the empty case
