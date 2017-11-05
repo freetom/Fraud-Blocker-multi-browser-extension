@@ -126,7 +126,12 @@ function messageHandler( msg, sender, sendResponse ){
 	else if(msg.msg=='ignore'){
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
       blockedURL = decodeURIComponent(tabs[0].url.split('?')[1])
-      blackListIgnore[extractNS(blockedURL)]=1;
+      ns=current=extractNS(blockedURL), prec='', level=2;
+      while(prec!=current){
+        prec=current;
+        blackListIgnore[current]=1;
+        current=extractSubNS(ns, level++);
+      }
 	    chrome.tabs.update(tabs[0].id, { url: blockedURL });
     });
 	}
