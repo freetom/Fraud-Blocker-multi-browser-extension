@@ -1,6 +1,13 @@
 const backendName='https://fraudblocker.publicvm.com/';
 const timeZero='1970-01-01 00:00:00';
 
+// Firefox uses "about" as special protocol to interface with settings' pages
+// and other internal pages
+const firefoxInternalProtocol = 'about';
+
+// Firefox protocol to access pages that belong to web-extensions
+const firefoxExtensionsProtocol = 'moz-extension';
+
 var api='api/';
 
 var reportUrl=backendName+api+'report.php';

@@ -32,7 +32,7 @@ function getStatus(url){
 
   var ret={}, prec=null, current='', level=2, ns=extractNS(url), check_sublease=false;
   //handle the empty case
-  if(ns=="")
+  if(ns=="" || ns.substring(0,firefoxInternalProtocol.length)==firefoxInternalProtocol )
     return {ns:"",msg:"white"};
   //if visiting an IP instead of a NS, ignore it anyway
   if(/^(?!.*\.$)((?!0\d)(1?\d?\d|25[0-5]|2[0-4]\d)(\.|$)){4}$/.test(ns) )
@@ -119,13 +119,20 @@ function sendGET(url, ns, func, onTimeout){
 var blackListIgnore={};
 var performing=false;
 function messageHandler( msg, sender, sendResponse ){
+  // Only accepts messages from Fraud Blocker
+  if(sender.id!==chrome.runtime.id)
+    return false;
+
 	if(msg.msg=="check"){
 		notify(sendResponse);
 	}
   // the user is asking to ignore the black-listed site through the popup
 	else if(msg.msg=='ignore'){
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-      blockedURL = decodeURIComponent(tabs[0].url.split('?')[1])
+      if(tabs[0].url.substring(0,firefoxExtensionsProtocol.length)==firefoxExtensionsProtocol)
+        blockedURL = decodeURIComponent(tabs[0].url.split('?')[1])
+      else
+        blockedURL = tabs[0].url
       ns=current=extractNS(blockedURL), prec='', level=2;
       while(prec!=current){
         prec=current;
