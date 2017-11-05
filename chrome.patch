@@ -1,118 +1,127 @@
-diff -ru -x '*.git*' -x chrome.patch ./background.js ../chrome/background.js
---- ./background.js	2017-03-14 17:25:59.035647281 +0100
-+++ ../chrome/background.js	2017-03-30 15:31:16.707693231 +0200
-@@ -4,13 +4,17 @@
-
- function checkTab(info){
-   chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
--    var res = getStatus(tabs[0].url);
--    if(res.msg=="grey"){
--      var nFraud=res.nFraud;
--      if(isNaN(nFraud)) //sanitize
--        nFraud='error';
--      chrome.browserAction.setBadgeText({tabId: tabs[0].tabId, text: nFraud});
--      chrome.browserAction.setBadgeBackgroundColor({tabId: tabs[0].tabId, color: "#cc0000"});
-+    if(tabs[0].url.substring(0,9)!="chrome://"){
-+      var res = getStatus(tabs[0].url);
-+      if(res.msg=="grey"){
-+        var nFraud=res.nFraud;
-+        if(isNaN(nFraud)) //sanitize
-+          nFraud='error';
-+        chrome.browserAction.setBadgeText({tabId: tabs[0].tabId, text: nFraud});
-+        chrome.browserAction.setBadgeBackgroundColor({tabId: tabs[0].tabId, color: "#cc0000"});
-+      }
-+      else
-+        chrome.browserAction.setBadgeText({tabId: tabs[0].tabId, text: ""});
-     }
-     else
-       chrome.browserAction.setBadgeText({tabId: tabs[0].tabId, text: ""});
-diff -ru -x '*.git*' -x chrome.patch ./manifest.json ../chrome/manifest.json
---- ./manifest.json	2017-03-14 17:25:59.035647281 +0100
-+++ ../chrome/manifest.json	2017-03-30 15:31:16.707693231 +0200
-@@ -4,19 +4,14 @@
+diff -ur '--exclude=.git' '--exclude=chrome.patch' firefox/include/messaging.js chrome/include/messaging.js
+--- firefox/include/messaging.js	2017-11-05 21:24:20.731389629 +0100
++++ chrome/include/messaging.js	2017-11-05 21:15:10.631405713 +0100
+@@ -32,7 +32,7 @@
+ 
+   var ret={}, prec=null, current='', level=2, ns=extractNS(url), check_sublease=false;
+   //handle the empty case
+-  if(ns=="" || ns.substring(0,firefoxInternalProtocol.length)==firefoxInternalProtocol )
++  if(ns=="" || ns.substring(0,chromeInternalProtocol.length)==chromeInternalProtocol )
+     return {ns:"",msg:"white"};
+   //if visiting an IP instead of a NS, ignore it anyway
+   if(/^(?!.*\.$)((?!0\d)(1?\d?\d|25[0-5]|2[0-4]\d)(\.|$)){4}$/.test(ns) )
+@@ -129,7 +129,7 @@
+   // the user is asking to ignore the black-listed site through the popup
+ 	else if(msg.msg=='ignore'){
+     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+-      if(tabs[0].url.substring(0,firefoxExtensionsProtocol.length)==firefoxExtensionsProtocol)
++      if(tabs[0].url.substring(0,chromeExtensionsProtocol.length)==chromeExtensionsProtocol)
+         blockedURL = decodeURIComponent(tabs[0].url.split('?')[1])
+       else
+         blockedURL = tabs[0].url
+diff -ur '--exclude=.git' '--exclude=chrome.patch' firefox/include/shared.js chrome/include/shared.js
+--- firefox/include/shared.js	2017-11-05 21:19:03.795398896 +0100
++++ chrome/include/shared.js	2017-11-05 21:14:16.079407308 +0100
+@@ -3,10 +3,10 @@
+ 
+ // Firefox uses "about" as special protocol to interface with settings' pages
+ // and other internal pages
+-const firefoxInternalProtocol = 'about';
++const chromeInternalProtocol = 'chrome';
+ 
+ // Firefox protocol to access pages that belong to web-extensions
+-const firefoxExtensionsProtocol = 'moz-extension';
++const chromeExtensionsProtocol = 'chrome-extension';
+ 
+ var api='api/';
+ 
+diff -ur '--exclude=.git' '--exclude=chrome.patch' firefox/manifest.json chrome/manifest.json
+--- firefox/manifest.json	2017-11-05 21:28:52.963381670 +0100
++++ chrome/manifest.json	2017-11-05 21:48:16.791347641 +0100
+@@ -4,20 +4,15 @@
    "name": "Fraud Blocker",
-   "version": "0.5.2",
-
+   "version": "0.6.3",
+ 
 -  "description": "Protects you from Fraudulent Sites blocking the access. If you access a site that users reported, you'll see how many people reported it on the button on toolbar. The plug-in also allows you to give fraud-feedback on the visited sites through the button on toolbar. Official site on https://fraudblocker.publicvm.com -- For issues and concerns, write to tomasbortoli@gmail.com ",
 +  "description": "Protect from Fraudulent Sites blocking the access. Warn on sites reported but not confirmed to be Fraud. You can to report sites too",
 +
 +  "author": "Tomas Bortoli",
-
+ 
    "icons": {
      "48": "icons/icon-48.png",
      "96": "icons/icon-96.png"
    },
--
+ 
 -  "applications": {
 -    "gecko": {
 -      "id": "fraudblocker@mozilla.org",
 -      "strict_min_version": "45.0"
 -    }
 -  },
-
+-
    "permissions": [
      "activeTab",
-@@ -29,7 +24,8 @@
+     "tabs",
+@@ -30,7 +25,8 @@
    ],
-
+ 
    "background": {
 -    "page": "background-page.html"
 +    "page": "background-page.html",
 +    "persistent": true
    },
-
+ 
    "browser_action": {
-Solo in .: out
-diff -ru -x '*.git*' -x chrome.patch ./popup/guiHandler.js ../chrome/popup/guiHandler.js
---- ./popup/guiHandler.js	2017-03-30 15:21:16.491705087 +0200
-+++ ../chrome/popup/guiHandler.js	2017-03-30 15:31:16.707693231 +0200
-@@ -47,6 +47,9 @@
+diff -ur '--exclude=.git' '--exclude=chrome.patch' firefox/popup/guiHandler.js chrome/popup/guiHandler.js
+--- firefox/popup/guiHandler.js	2017-11-05 21:23:16.791391499 +0100
++++ chrome/popup/guiHandler.js	2017-11-05 21:12:51.015409796 +0100
+@@ -51,6 +51,9 @@
  }
-
+ 
  function checkURL(msg){
 +  if(msg==null || msg.msg==null)
 +    return;
 +
    var done=false;
-
+ 
    if(checkDisplay('white','none'))
-diff -ru -x '*.git*' -x chrome.patch ./popup/popup.css ../chrome/popup/popup.css
---- ./popup/popup.css	2017-03-14 17:25:59.035647281 +0100
-+++ ../chrome/popup/popup.css	2017-03-30 15:31:16.707693231 +0200
+diff -ur '--exclude=.git' '--exclude=chrome.patch' firefox/popup/popup.css chrome/popup/popup.css
+--- firefox/popup/popup.css	2017-11-05 21:19:03.795398896 +0100
++++ chrome/popup/popup.css	2017-11-05 20:11:43.291517034 +0100
 @@ -8,6 +8,7 @@
    user-select: none;           /* Non-prefixed version, currently
                                    not supported by any browser */
    overflow-y: hidden;
 +  overflow-x: hidden;
  }
-
+ 
  body{
 @@ -19,18 +20,22 @@
  }
-
+ 
  #black{
 +  width: 30em;
    display: none;
  }
-
+ 
  #white{
 +  width: 30em;
    display: none;
  }
-
+ 
  #grey{
 +  width: 30em;
    display: none;
  }
-
+ 
  #default{
 +  width: 24em;
    visibility: hidden;
  }
-
+ 
 @@ -96,6 +101,7 @@
  }
-
+ 
  #thanks{
 +  width: 30em;
    display: none;
@@ -120,22 +129,22 @@ diff -ru -x '*.git*' -x chrome.patch ./popup/popup.css ../chrome/popup/popup.css
    text-align: center;
 @@ -104,12 +110,14 @@
  }
-
+ 
  #already{
 +  width: 30em;
    display: none;
    text-align: center;
    font-size: 1.1em;
  }
-
+ 
  #offline{
 +  width: 30em;
    display: none;
    font-size: 1.2em;
  }
-diff -ru -x '*.git*' -x chrome.patch ./popup/popup.html ../chrome/popup/popup.html
---- ./popup/popup.html	2017-03-14 17:25:59.035647281 +0100
-+++ ../chrome/popup/popup.html	2017-03-30 15:31:16.707693231 +0200
+diff -ur '--exclude=.git' '--exclude=chrome.patch' firefox/popup/popup.html chrome/popup/popup.html
+--- firefox/popup/popup.html	2017-11-05 21:19:03.795398896 +0100
++++ chrome/popup/popup.html	2017-11-05 20:11:43.291517034 +0100
 @@ -29,7 +29,7 @@
    </div>
    <div id="white" style="padding-left:10%;padding-right:10%;">
