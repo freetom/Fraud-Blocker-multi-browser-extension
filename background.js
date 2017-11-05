@@ -23,5 +23,15 @@ function checkTab(info){
 chrome.tabs.onActivated.addListener(checkTab);
 chrome.tabs.onUpdated.addListener(checkTab);
 
+//setup handler to block black-listed sites
+function onBeforeRequest(request){
+  if(getStatus(request.url).msg=="black") //----------BLOCK-IT----------
+    // Redirect the browser to the "placeholder" blocked-page
+    // Furthermore, add the blocked URL to the end of the URL so we can retrieve
+    // it later, in the case the user wants to ignore the block
+    return {redirectUrl: chrome.extension.getURL('web/black.html?'+encodeURIComponent(request.url))};
+}
+chrome.webRequest.onBeforeRequest.addListener(onBeforeRequest, {urls: ["<all_urls>"]}, ["blocking"]);
+
 
 storage.get(null,init);
