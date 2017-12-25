@@ -120,7 +120,7 @@ var blackListIgnore={};
 var performing=false;
 function messageHandler( msg, sender, sendResponse ){
   // Only accepts messages from Fraud Blocker
-  if(sender.id!==chrome.runtime.id)
+  if(sender.extensionId!==chrome.runtime.id)
     return false;
 
 	if(msg.msg=="check"){
