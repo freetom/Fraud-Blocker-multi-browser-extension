@@ -52,7 +52,7 @@ function setView(default_, thanks, already){
 
 function checkURL(msg){
   var done=false;
-
+  
   if(checkDisplay('white','none'))
     setDisplay('white','none');
   if(checkDisplay('black','none'))

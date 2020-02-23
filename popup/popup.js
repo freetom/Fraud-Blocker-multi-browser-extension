@@ -1,5 +1,5 @@
 
-var currentNS='';
+var currentNS='', currentURL='';
 
 document.addEventListener("DOMContentLoaded",mapEvents);
 
@@ -7,7 +7,7 @@ init();
 
 function ignore(){
   chrome.runtime.sendMessage(
-    { msg:'ignore', element:currentNS }
+    { msg:'ignore', element:currentNS, url: currentURL }
   );
   window.close();
 }
@@ -28,6 +28,7 @@ function updateTab() {
     if (tabs[0]) {
       currentTab = tabs[0];
       currentNS=extractNS(currentTab.url);
+      currentURL = currentTab.url;
 
       if(checkDisplay('offline','none'))
         setDisplay('offline','none')
@@ -52,7 +53,7 @@ function reportFraud(){
   reporting=true;
 
   chrome.runtime.sendMessage(
-    {type: 'report', ns: currentNS},
+    {type: 'report', ns: currentNS, url: currentURL},
     function(msg){
       if(msg.result=='ok'){
         if(checkDisplay('grey','block'))
@@ -80,7 +81,7 @@ function avoidReport(){
   reporting=true;
 
   chrome.runtime.sendMessage(
-    {type: 'avoidReport', ns: currentNS},
+    {type: 'avoidReport', ns: currentNS, url: currentURL},
     function(msg){
       if(msg.result=='ok'){
         setView('block','none','none');
@@ -103,7 +104,7 @@ function conReport(){
   reporting=true;
 
   chrome.runtime.sendMessage(
-    {type: 'conReport', ns: currentNS},
+    {type: 'conReport', ns: currentNS, url: currentURL},
     function(msg){
       if(msg!=null){
         if(msg.result=='ok'){
@@ -129,7 +130,7 @@ function avoidConReport(){
   reporting=true;
 
   chrome.runtime.sendMessage(
-    {type: 'avoidConReport', ns: currentNS},
+    {type: 'avoidConReport', ns: currentNS, url: currentURL},
     function(msg){
       updateTab();
       reporting=false;
@@ -146,7 +147,7 @@ function avoidAny(){
   reporting=true;
 
   chrome.runtime.sendMessage(
-    {type: 'avoidAny', ns: currentNS},
+    {type: 'avoidAny', ns: currentNS, url: currentURL},
     function(msg){
       if(msg!=null){
         if(msg.result=='ok'){
